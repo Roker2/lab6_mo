@@ -7,10 +7,12 @@ SOURCES += \
         CustomException.cpp \
         GaussMethod.cpp \
         Matrix.cpp \
+        SquareMatrix.cpp \
         main.cpp
 
 HEADERS += \
     Appxomate.h \
     CustomException.h \
     GaussMethod.h \
-    Matrix.h
+    Matrix.h \
+    SquareMatrix.h
