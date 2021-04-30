@@ -5,7 +5,7 @@
 class GaussMethod
 {
 public:
-    GaussMethod();
+    GaussMethod() = delete;
 };
 
 #endif // GAUSSMETHOD_H

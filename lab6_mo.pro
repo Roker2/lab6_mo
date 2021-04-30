@@ -4,8 +4,13 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
+        CustomException.cpp \
         GaussMethod.cpp \
+        Matrix.cpp \
         main.cpp
 
 HEADERS += \
-    GaussMethod.h
+    Appxomate.h \
+    CustomException.h \
+    GaussMethod.h \
+    Matrix.h
