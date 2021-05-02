@@ -1,7 +1,11 @@
 #pragma once
 
+#include <vector>
+#include <stack>
 #include <string>
+#include <algorithm>
 
+#include "global.h"
 #include "CustomException.h"
 #include "Priority.h"
 #include "Func.h"
@@ -12,8 +16,10 @@ public:
 	static void translate(Func& func);
 
 private:
-	static bool bracketsCompensed(const Func& func);
+	static Func prepareFunc(const Func& func);
 
-	static Priority getprior(char ii);
+	static void translateInternal(Func& func);
+
+	static bool bracketsCompensed(const Func& func);
 };
 

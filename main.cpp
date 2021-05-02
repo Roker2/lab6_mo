@@ -1,9 +1,11 @@
 #include <iostream>
 
+#include "Calculator/Tests.h"
+
 using namespace std;
 
 int main()
 {
-    cout << "Hello World!" << endl;
+	tests();
     return 0;
 }

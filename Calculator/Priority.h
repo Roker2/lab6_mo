@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 enum class Priority : signed char
 {
 	Var = -1,
@@ -9,3 +11,5 @@ enum class Priority : signed char
 	Power = 4,
 	Func = 5
 };
+
+Priority getPriority(const std::string &str);

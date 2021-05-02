@@ -1,9 +1,17 @@
 #include "Func.h"
 #include "Calculator.h"
 
-Func::Func(const std::string& str)
-	: funcInf(str)
+Func::Func(const std::string& funcInf)
+	: funcInf(funcInf)
 {}
+
+std::string Func::getPost() const noexcept
+{
+	std::string result;
+	for (const auto& t : tokensPost)
+		result += t.getStr() + " ";
+	return result;
+}
 
 double Func::operator()(const std::vector<Property> props)
 {
