@@ -7,7 +7,6 @@ SOURCES += \
         Calculator/Calculator.cpp \
         Calculator/Func.cpp \
         Calculator/Priority.cpp \
-        Calculator/Property.cpp \
         Calculator/Tests.cpp \
         Calculator/Token.cpp \
         Calculator/Translator.cpp \

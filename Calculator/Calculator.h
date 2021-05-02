@@ -11,5 +11,5 @@
 class Calculator
 {
 public:
-	static double calculate(const Func& func, const std::map<std::string, Property>& props = {});
+	static double calculate(const Func& func, const Properties& props = {});
 };

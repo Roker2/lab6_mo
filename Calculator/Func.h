@@ -16,7 +16,7 @@ public:
 
 	std::string getPost() const noexcept;
 
-	double operator()(const std::map<std::string, Property>& props = {});
+	double operator()(const Properties& props = {});
 	operator std::string() const noexcept;
 
 private:

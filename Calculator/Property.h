@@ -1,12 +1,8 @@
 #pragma once
 
 #include <string>
+#include <map>
+#include <tuple>
 
-struct Property
-{
-	Property(const std::string& var, double value);
-	Property(std::string&& var, double&& value);
-
-	std::string var;
-	double value;
-};
+using Property = std::tuple<std::string, double>;
+using Properties = std::map<std::string, double>;

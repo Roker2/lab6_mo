@@ -71,7 +71,7 @@ void Translator::translateInternal(Func &func)
 				   && (stack.top().getType() == TokenType::Func
 					   || stack.top().getPriority() > t.getPriority()
 					   || (stack.top().getPriority() == t.getPriority()
-						   && t.getPriority() == Priority::Power)))
+						   && t.getPriority() != Priority::Power)))
 			{
 				func.tokensPost.push_back(stack.top());
 				stack.pop();

@@ -13,7 +13,7 @@ std::string Func::getPost() const noexcept
 	return result;
 }
 
-double Func::operator()(const std::map<std::string, Property>& props)
+double Func::operator()(const Properties& props)
 {
 	return Calculator::calculate(*this, props);
 }

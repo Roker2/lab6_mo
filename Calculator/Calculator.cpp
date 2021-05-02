@@ -1,6 +1,6 @@
 #include "Calculator.h"
 
-double Calculator::calculate(const Func &func, const std::map<std::string, Property>& props)
+double Calculator::calculate(const Func &func, const Properties& props)
 {
 	if (!func.isComplete())
 		throw CustomException("Calculator calculate ex: func is incomplete, func == "
@@ -16,7 +16,7 @@ double Calculator::calculate(const Func &func, const std::map<std::string, Prope
 		case TokenType::Variable:
 			if (props.count(t.getStr()) == 0)
 				throw CustomException("Calculator calculate ex: var" + t.getStr() + " doesn't exist");
-			stack.push(props.at(t.getStr()).value);
+			stack.push(props.at(t.getStr()));
 			break;
 		case TokenType::Func:
 		{
