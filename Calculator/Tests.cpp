@@ -2,14 +2,25 @@
 
 #include "global.h"
 #include "Translator.h"
+#include "Calculator.h"
 
 #define TRANSLATOR_TEST(TEST_NUM, FUNC_INF, FUNC_POST_EXPECTED) \
 bool translatorTest##TEST_NUM() \
 { \
 	Func func(FUNC_INF); \
-	PROTECTED(Translator::translate(func);, "") \
+	PROTECTED(Translator::translate(func);, "Translator test ex: ") \
 	if (!func.isComplete()) return false; \
 	std::cout << std::string(func) << " --> " << func.getPost() << std::endl; \
+	return func.getPost() == FUNC_POST_EXPECTED; \
+}
+
+#define CALCULATION_TEST(TEST_NUM, FUNC_INF, FUNC_RESULT_EXPECTED) \
+bool calculationTest##TEST_NUM(const std::map<std::string, Property>& props = {}) \
+{ \
+	Func func(FUNC_INF); \
+	PROTECTED(Translator::translate(func);, "calculator test ex: ") \
+	if (!func.isComplete()) return false; \
+	std::cout << std::string(func) << " == " << func(props) << std::endl; \
 	return func.getPost() == FUNC_POST_EXPECTED; \
 }
 

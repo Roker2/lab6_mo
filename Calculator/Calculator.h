@@ -1,6 +1,8 @@
 #pragma once
 
-#include <vector>
+#include <map>
+#include <stack>
+#include <cmath>
 
 #include "CustomException.h"
 #include "Property.h"
@@ -9,5 +11,5 @@
 class Calculator
 {
 public:
-	static double calculate(const Func& func, const std::vector<Property> props = {});
+	static double calculate(const Func& func, const std::map<std::string, Property>& props = {});
 };

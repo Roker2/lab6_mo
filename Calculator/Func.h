@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+#include <map>
 #include <string>
 
 #include "Token.h"
@@ -16,7 +16,7 @@ public:
 
 	std::string getPost() const noexcept;
 
-	double operator()(const std::vector<Property> props = {});
+	double operator()(const std::map<std::string, Property>& props = {});
 	operator std::string() const noexcept;
 
 private:
@@ -25,5 +25,6 @@ private:
 	std::vector<Token> tokensPost;
 
 	friend class Translator;
+	friend class Calculator;
 };
 
