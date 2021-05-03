@@ -19,7 +19,12 @@ void Resolver::resolver(std::vector<Func>& gfuncs, const Properties& vectorx)
         }
     }
 
-    const int n = 3; // TODO: replace it
+    // посчитаем количество активных функций
+    int n = 0;
+    for (bool status : activeFuncs)
+        if (status)
+            n++;
+
     Matrix fVector(1, n, {{0, 0, 3}});
     fVector.transpose();
     for (int i = 0; i < n; i++)
