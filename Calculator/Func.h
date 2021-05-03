@@ -1,8 +1,10 @@
 #pragma once
 
+#include <iostream>
 #include <map>
 #include <string>
 
+#include "global.h"
 #include "Token.h"
 #include "Property.h"
 
@@ -15,6 +17,11 @@ public:
 	inline bool isComplete() const noexcept { return !tokensPost.empty(); }
 
 	std::string getPost() const noexcept;
+
+	void retranslate() noexcept;
+
+	Func derivative() const noexcept;
+	void makeDerivative() noexcept;
 
 	double operator()(const Properties& props = {});
 	operator std::string() const noexcept;

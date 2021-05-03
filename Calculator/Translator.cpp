@@ -2,11 +2,14 @@
 
 void Translator::translate(Func &func)
 {
+	if (func.isComplete())
+		return;
 	if (!bracketsCompensed(func))
 		throw CustomException("Translator translate ex: brackets aren't compensed: "
 							  + static_cast<std::string>(func));
 	auto funcPrepared = prepareFunc(func);
 	translateInternal(funcPrepared);
+	func.tokensInf = funcPrepared.tokensInf;
 	func.tokensPost = funcPrepared.tokensPost;
 }
 
