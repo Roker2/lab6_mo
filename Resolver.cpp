@@ -1,7 +1,24 @@
 #include "Resolver.h"
 
-void Resolver::resolver()
+void Resolver::resolver(std::vector<Func>& gfuncs, const Properties& vectorx)
 {
+    std::vector<bool> activeFuncs;
+    for (size_t i = 0; i < gfuncs.size(); i++) {
+        Translator::translate(gfuncs[i]);
+        double res = gfuncs[i](vectorx);
+        if(Approximate<double>::lessEqual(res, 0))
+            // если ограничение работает как равенство, то ограничение активное
+            if(Approximate<double>::equal(res, 0))
+                activeFuncs.push_back(true);
+            // в противном случае неактивное
+            else
+                activeFuncs.push_back(false);
+        else {
+            std::cout << "x is invalid plan" << std::endl;
+            return;
+        }
+    }
+
     const int n = 3; // TODO: replace it
     Matrix fVector(1, n, {{0, 0, 3}});
     fVector.transpose();
