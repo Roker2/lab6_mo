@@ -50,6 +50,10 @@ void Resolver::resolver(std::vector<Func>& gfuncs, const Properties& vectorx, Ma
 
     SquareMatrix A(n);
 
+    // Далее идет очень занимательных два блока
+
+    // здесь происходит "оптимизация" для метода Гаусса
+    // если элемент из неактивной части, то мы его просто не добавляем
     for (size_t i = 0; i < gVectors.size(); i++)
             for (int j = 0, vectorIndex = 0; j < gVectors[i].getM(); j++)
                 if (activeFuncs[j]) {
