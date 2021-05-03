@@ -1,13 +1,15 @@
 #pragma once
 
 #include <exception>
+#include <string>
 
 class CustomException : std::exception
 {
 public:
-	CustomException(const char * message);
+	CustomException(const char* message);
+	CustomException(const std::string& message);
 	~CustomException() override;
-	const char * what() const noexcept override;
+	const char* what() const noexcept override;
 private:
-	const char * message;
+	const std::string message;
 };
