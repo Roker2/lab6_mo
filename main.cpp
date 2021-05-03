@@ -17,6 +17,9 @@ int main()
         Func("x3 - x2"),
         Func("-x1 + 1"),
     };
-    Resolver::resolver(gfuncs, vectorx);
+
+    Matrix fVector(1, 3, {{0, 0, 3}});
+    fVector.transpose();
+    Resolver::resolver(gfuncs, vectorx, fVector);
     return 0;
 }

@@ -12,7 +12,7 @@ class Resolver
 {
 public:
     Resolver() = delete;
-    static void resolver(std::vector<Func>& gfuncs, const Properties& vectorx);
+    static void resolver(std::vector<Func>& gfuncs, const Properties& vectorx, Matrix fVector);
 };
 
 #endif // RESOLVER_H

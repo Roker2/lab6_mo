@@ -1,6 +1,6 @@
 #include "Resolver.h"
 
-void Resolver::resolver(std::vector<Func>& gfuncs, const Properties& vectorx)
+void Resolver::resolver(std::vector<Func>& gfuncs, const Properties& vectorx, Matrix fVector)
 {
     std::vector<bool> activeFuncs;
     for (size_t i = 0; i < gfuncs.size(); i++) {
@@ -25,8 +25,6 @@ void Resolver::resolver(std::vector<Func>& gfuncs, const Properties& vectorx)
         if (status)
             n++;
 
-    Matrix fVector(1, n, {{0, 0, 3}});
-    fVector.transpose();
     for (int i = 0; i < n; i++)
         fVector[i][0] *= -1;
 
