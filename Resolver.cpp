@@ -30,11 +30,19 @@ void Resolver::resolver(std::vector<Func>& gfuncs, const Properties& vectorx, Ma
 
     std::cout << fVector << std::endl;
 
-    std::vector<Matrix> gVectors = {
+    // TODO: Здесь должен быть блок с производными
+
+    /*std::vector<Matrix> gVectors = {
         Matrix(1, n, {{2, 0, 2}}),
         Matrix(1, n, {{0, -1, 1}}),
         Matrix(1, n, {{-1, 0, 0}}),
+    };*/
+
+    std::vector<Matrix> gVectors = {
+        Matrix(1, gfuncs.size(), {{-2, 0, -2}}),
+        Matrix(1, gfuncs.size(), {{0, -1, 0}}),
     };
+
     for (size_t i = 0; i < gVectors.size(); i++) {
         gVectors[i].transpose();
         std::cout << gVectors[i] << std::endl;
@@ -43,8 +51,17 @@ void Resolver::resolver(std::vector<Func>& gfuncs, const Properties& vectorx, Ma
     SquareMatrix A(n);
 
     for (size_t i = 0; i < gVectors.size(); i++)
-        for (int j = 0; j < n; j++) {
-            A[j][i] = gVectors[i][j][0];
+            for (int j = 0, vectorIndex = 0; j < gVectors[i].getM(); j++)
+                if (activeFuncs[j]) {
+                    A[vectorIndex][i] = gVectors[i][vectorIndex][0];
+                    vectorIndex++;
+                }
+
+    Matrix customFVector(n, 1);
+    for (size_t i = 0, vectorIndex = 0; i < activeFuncs.size(); i++)
+        if (activeFuncs[i]) {
+            customFVector[vectorIndex] = fVector[i];
+            vectorIndex++;
         }
 
     std::cout << A << std::endl;
