@@ -16,6 +16,8 @@ public:
 
 	std::string getPost() const noexcept;
 
+	void retranslate() noexcept;
+
 	double operator()(const Properties& props = {});
 	operator std::string() const noexcept;
 
