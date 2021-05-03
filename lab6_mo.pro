@@ -5,6 +5,7 @@ CONFIG -= qt
 
 SOURCES += \
         Calculator/Calculator.cpp \
+        Calculator/DerivativeCalculator.cpp \
         Calculator/Func.cpp \
         Calculator/Priority.cpp \
         Calculator/Tests.cpp \
@@ -20,6 +21,7 @@ SOURCES += \
 HEADERS += \
     Appxomate.h \
     Calculator/Calculator.h \
+    Calculator/DerivativeCalculator.h \
     Calculator/Func.h \
     Calculator/Priority.h \
     Calculator/Property.h \
