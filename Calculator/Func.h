@@ -23,7 +23,7 @@ public:
 	Func derivative() const noexcept;
 	void makeDerivative() noexcept;
 
-	double operator()(const Properties& props = {});
+	double operator()(const Properties& props = {}) const;
 	operator std::string() const noexcept;
 
 private:

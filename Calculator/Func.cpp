@@ -34,7 +34,7 @@ void Func::makeDerivative() noexcept
 	PROTECTED(DerivativeCalculator::calculateDerivative(*this);, "Func derivative ex:")
 }
 
-double Func::operator()(const Properties& props)
+double Func::operator()(const Properties& props) const
 {
 	return Calculator::calculate(*this, props);
 }

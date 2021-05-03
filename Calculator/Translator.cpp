@@ -50,7 +50,7 @@ void Translator::translateInternal(Func &func)
 		case TokenType::Variable:
 			func.tokensPost.push_back(t);
 			break;
-		case TokenType::Func:
+		case TokenType::Action:
 			stack.push(t);
 			break;
 		case TokenType::Bracket:
@@ -71,7 +71,7 @@ void Translator::translateInternal(Func &func)
 			break;
 		case TokenType::Operator:
 			while (!stack.empty()
-				   && (stack.top().getType() == TokenType::Func
+				   && (stack.top().getType() == TokenType::Action
 					   || stack.top().getPriority() > t.getPriority()
 					   || (stack.top().getPriority() == t.getPriority()
 						   && t.getPriority() != Priority::Power)))
