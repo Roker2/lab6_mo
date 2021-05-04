@@ -9,6 +9,6 @@
 class DerivativeCalculator
 {
 public:
-	static FuncPtr calculateDerivative(FuncCPtr func);
-	static void calculateDerivative(FuncPtr func);
+	static FuncPtr calculateDerivative(FuncCPtr func, const std::string &var);
+	static void calculateDerivative(FuncPtr func, const std::string &var);
 };

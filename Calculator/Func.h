@@ -24,14 +24,17 @@ public:
 
 	inline bool isComplete() const noexcept { return !tokensPost.empty(); }
 
+	const std::string& getInf() const noexcept;
 	std::string getPost() const noexcept;
 
 	void retranslate() noexcept;
 
-	FuncPtr derivative() const noexcept;
-	void setDerivative() noexcept;
+	FuncPtr derivative(const std::string& var) const noexcept;
+	void setDerivative(const std::string &var) noexcept;
 
 	double calculate(const Properties& props = {}) const noexcept;
+
+    std::vector<FuncPtr> fragmentate() const noexcept;
 
 	double operator()(const Properties& props = {}) const noexcept;
 	operator std::string() const noexcept;

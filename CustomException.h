@@ -3,7 +3,7 @@
 #include <exception>
 #include <string>
 
-class CustomException : std::exception
+class CustomException : public std::exception
 {
 public:
 	CustomException(const char* message);

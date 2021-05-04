@@ -1,6 +1,6 @@
 #include "FuncFragmentator.h"
 
-std::vector<FuncPtr> FuncFragmentator::fragmentate(FuncPtr func)
+std::vector<FuncPtr> FuncFragmentator::fragmentate(FuncCPtr func)
 {
 	if (!func || !func->isComplete())
 		throw CustomException("FuncFragmentator fragmentate ex: func is incomplete, func == "
@@ -20,18 +20,35 @@ std::vector<FuncPtr> FuncFragmentator::fragmentate(FuncPtr func)
 			stack.push(t);
 			break;
 		case TokenType::Action:
+		{
+			if (stack.size() < 1)
+				throw CustomException("FuncFragmentator fragmentate Action ex: operators count is greater than operands count");
+			auto op = stack.top();
+			stack.pop();
+			auto subfunc = Func::makeFunc();
+			subfunc->funcInf = static_cast<std::string>(t)
+							   + '(' + static_cast<std::string>(op) + ')';
+			subfunc->tokensInf.push_back(t);
+			subfunc->tokensInf.push_back(op);
+
+			subfunc->tokensPost.push_back(op);
+			subfunc->tokensPost.push_back(t);
+			stack.push(Token("subfunc", TokenType::Subfunc, std::nullopt, subfunc));
+			fragments.emplace_back(subfunc);
+			break;
+		}
 		case TokenType::Operator:
 		{
 			if (stack.size() < 2)
-				throw CustomException("FuncFragmentator fragmentate ex: operators count is greater than operands count");
+				throw CustomException("FuncFragmentator fragmentate Operator ex: operators count is greater than operands count");
 			auto op2 = stack.top();
 			stack.pop();
 			auto op1 = stack.top();
 			stack.pop();
 			auto subfunc = Func::makeFunc();
-			subfunc->funcInf = static_cast<std::string>(op1) + ' '
+			subfunc->funcInf = '(' + static_cast<std::string>(op1) + ' '
 							   + static_cast<std::string>(t) + ' '
-							   + static_cast<std::string>(op2);
+							   + static_cast<std::string>(op2) + ')';
 			subfunc->tokensInf.push_back(op1);
 			subfunc->tokensInf.push_back(t);
 			subfunc->tokensInf.push_back(op2);
@@ -39,7 +56,8 @@ std::vector<FuncPtr> FuncFragmentator::fragmentate(FuncPtr func)
 			subfunc->tokensPost.push_back(op1);
 			subfunc->tokensPost.push_back(op2);
 			subfunc->tokensPost.push_back(t);
-			stack.push(Token("", TokenType::Subfunc, std::nullopt, subfunc));
+			stack.push(Token("subfunc", TokenType::Subfunc, std::nullopt, subfunc));
+			fragments.emplace_back(subfunc);
 			break;
 		}
 		default:
