@@ -12,15 +12,15 @@
 using FuncPtr = std::shared_ptr<class Func>;
 using FuncCPtr = std::shared_ptr<const class Func>;
 
-class Func : std::enable_shared_from_this<Func>
+class Func : public std::enable_shared_from_this<Func>
 {
 private:
 	Func(const std::string& funcInf = "");
 public:
 	~Func() = default;
 
-	static FuncPtr makeFunc(const std::string& funcInf = "");
-	static FuncPtr makeFunc(FuncCPtr func);
+    static FuncPtr makeFunc(const std::string& funcInf = "") noexcept;
+    static FuncPtr makeFunc(FuncCPtr func) noexcept;
 
 	inline bool isComplete() const noexcept { return !tokensPost.empty(); }
 

@@ -7,19 +7,18 @@ Func::Func(const std::string& funcInf)
 	: funcInf(funcInf)
 {}
 
-FuncPtr Func::makeFunc(const std::string &funcInf)
+FuncPtr Func::makeFunc(const std::string &funcInf) noexcept
 {
 	Func temp(funcInf);
 	auto func = std::make_shared<Func>(std::move(temp));
-	Translator::translate(func);
-	PROTECTED(Translator::translate(func);, "Func makeFunc translate ex: ")
-	return func;
+    func->retranslate();
+    return func;
 }
 
-FuncPtr Func::makeFunc(FuncCPtr func)
+FuncPtr Func::makeFunc(FuncCPtr func) noexcept
 {
 	if (!func)
-		throw CustomException("Func makeFunc copy ex: func null");
+        return nullptr;
 	return std::make_shared<Func>(*func);
 }
 
