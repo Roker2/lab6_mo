@@ -10,7 +10,7 @@ class Resolver
 {
 public:
     Resolver() = delete;
-    static void resolver(std::vector<Func>& gFuncs, const Properties& vectorx, const Func& fFunc);
+    static void resolver(std::vector<FuncPtr>& gFuncs, const Properties& vectorx, FuncCPtr fFunc);
 };
 
 #endif // RESOLVER_H
