@@ -33,6 +33,8 @@ public:
 
 	double calculate(const Properties& props = {}) const noexcept;
 
+    std::vector<FuncPtr> fragmentate() const noexcept;
+
 	double operator()(const Properties& props = {}) const noexcept;
 	operator std::string() const noexcept;
 

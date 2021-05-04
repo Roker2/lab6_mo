@@ -43,6 +43,17 @@ CALCULATION_TEST(3, 0.1, "x^2.3 + 5*x - y^3.7 + 4*y", 141.641826487,
 CALCULATION_TEST(4, 0.1, "7 + (-sqrt(1-x^2-y+(y-abs(x))^4)) * cos(27*((1-x^2+(y-abs(x))^2)))",
 				 27.197, (Properties{{"x", 1.7}, {"y", 7.3}}))
 
+
+bool fragmentationTest1()
+{
+    FuncPtr func = Func::makeFunc("x^3 - 3*x + y^3 - 3*y");
+    if (!func->isComplete()) return false;
+    std::vector<FuncPtr> subfuncs = func->fragmentate();
+    for (const auto& subfunc : subfuncs)
+        std::cout << subfunc->getPost();
+    return true;
+}
+
 void tests()
 {
 	std::cout << TEST(translatorTest0);
@@ -56,4 +67,6 @@ void tests()
 	std::cout << TEST(calculationTest2);
 	std::cout << TEST(calculationTest3);
 	std::cout << TEST(calculationTest4);
+
+    std::cout << TEST(fragmentationTest1);
 }

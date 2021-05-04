@@ -1,6 +1,6 @@
 #include "FuncFragmentator.h"
 
-std::vector<FuncPtr> FuncFragmentator::fragmentate(FuncPtr func)
+std::vector<FuncPtr> FuncFragmentator::fragmentate(FuncCPtr func)
 {
 	if (!func || !func->isComplete())
 		throw CustomException("FuncFragmentator fragmentate ex: func is incomplete, func == "
@@ -39,7 +39,8 @@ std::vector<FuncPtr> FuncFragmentator::fragmentate(FuncPtr func)
 			subfunc->tokensPost.push_back(op1);
 			subfunc->tokensPost.push_back(op2);
 			subfunc->tokensPost.push_back(t);
-			stack.push(Token("", TokenType::Subfunc, std::nullopt, subfunc));
+            stack.push(Token("", TokenType::Subfunc, std::nullopt, subfunc));
+            fragments.emplace_back(subfunc);
 			break;
 		}
 		default:
