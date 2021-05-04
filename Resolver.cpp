@@ -1,10 +1,10 @@
 #include "Resolver.h"
 
-void Resolver::resolver(std::vector<Func>& gfuncs, const Properties& vectorx, Matrix fVector)
+void Resolver::resolver(std::vector<Func>& gFuncs, const Properties& vectorx, const Func& fFunc)
 {
     std::vector<bool> activeFuncs;
-    for (size_t i = 0; i < gfuncs.size(); i++) {
-        double res = gfuncs[i](vectorx);
+    for (size_t i = 0; i < gFuncs.size(); i++) {
+        double res = gFuncs[i](vectorx);
         if(Approximate<double>::lessEqual(res, 0))
             // если ограничение работает как равенство, то ограничение активное
             if(Approximate<double>::equal(res, 0))
@@ -24,23 +24,26 @@ void Resolver::resolver(std::vector<Func>& gfuncs, const Properties& vectorx, Ma
         if (status)
             n++;
 
-    for (int i = 0; i < n; i++)
-        fVector[i][0] *= -1;
-
-    std::cout << fVector << std::endl;
-
     // TODO: Здесь должен быть блок с производными
 
     /*std::vector<Matrix> gVectors = {
         Matrix(1, n, {{2, 0, 2}}),
         Matrix(1, n, {{0, -1, 1}}),
         Matrix(1, n, {{-1, 0, 0}}),
-    };*/
-
-    std::vector<Matrix> gVectors = {
-        Matrix(1, gfuncs.size(), {{-2, 0, -2}}),
-        Matrix(1, gfuncs.size(), {{0, -1, 0}}),
     };
+    Matrix fVector(1, 3, {{0, 0, 3}});*/
+
+    // TODO: Убрать заранее готовые значения, они будут вычислены блоком с производными
+    std::vector<Matrix> gVectors = {
+        Matrix(1, gFuncs.size(), {{-2, 0, -2}}),
+        Matrix(1, gFuncs.size(), {{0, -1, 0}}),
+    };
+    Matrix fVector(1, 3, {{4, 4, 4}});
+
+    fVector.transpose();
+    for (int i = 0; i < n; i++)
+        fVector[i][0] *= -1;
+    std::cout << fVector << std::endl;
 
     for (size_t i = 0; i < gVectors.size(); i++) {
         gVectors[i].transpose();

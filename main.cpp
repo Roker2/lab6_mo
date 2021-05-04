@@ -17,16 +17,14 @@ int main()
         Func("x3 - x2"),
         Func("-x1 + 1"),
     };
-    Matrix fVector(1, 3, {{0, 0, 3}});
-    */
+    Func fFunc("x1 ^ 2 - 2 * x1 * x2 + x2 ^ 2 + x3 ^ 2");*/
     std::vector<Func> gfuncs{
         Func("(x1 - 2) ^ 2 + (x3 - 2) ^ 2 - 2"),
         Func("-x2 + 1"),
         Func("x1 + x2 + x3 - 10"),
     };
-    Matrix fVector(1, 3, {{4, 4, 4}});
+    Func fFunc("x1 ^ 2 + 2 * x1 * x2 + x2 ^ 2 + x3 ^ 2");
 
-    fVector.transpose();
-    Resolver::resolver(gfuncs, vectorx, fVector);
+    Resolver::resolver(gfuncs, vectorx, fFunc);
     return 0;
 }
