@@ -13,13 +13,13 @@
 class Translator
 {
 public:
-	static void translate(Func& func);
+	static void translate(FuncPtr func);
 
 private:
-	static Func prepareFunc(const Func& func);
+	static FuncPtr prepareFunc(FuncCPtr func);
 
-	static void translateInternal(Func& func);
+	static void translateInternal(FuncPtr func);
 
-	static bool bracketsCompensed(const Func& func);
+	static bool bracketsCompensed(FuncCPtr func);
 };
 

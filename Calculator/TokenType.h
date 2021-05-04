@@ -7,5 +7,6 @@ enum class TokenType : signed char
 	Number,
 	Bracket,
 	Operator,
-	Func
+	Action,
+	Subfunc
 };

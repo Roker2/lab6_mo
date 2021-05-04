@@ -9,6 +9,6 @@
 class DerivativeCalculator
 {
 public:
-	static Func calculateDerivative(const Func& func);
-	static void calculateDerivative(Func& func);
+	static FuncPtr calculateDerivative(FuncCPtr func);
+	static void calculateDerivative(FuncPtr func);
 };

@@ -1,12 +1,12 @@
 #include "DerivativeCalculator.h"
 
 
-Func DerivativeCalculator::calculateDerivative(const Func &func)
+FuncPtr DerivativeCalculator::calculateDerivative(FuncCPtr func)
 {
-	return {};
+	return Func::makeFunc();
 }
 
-void DerivativeCalculator::calculateDerivative(Func &func)
+void DerivativeCalculator::calculateDerivative(FuncPtr func)
 {
 
 }

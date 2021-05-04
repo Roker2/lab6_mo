@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <string>
 #include <functional>
 #include <cmath>
@@ -20,6 +21,8 @@
 
 #define PROTECTED_SYNC(x, ERR_MSG) \
 	PROTECTED(std::lock_guard{ mutex }; x, ERR_MSG)
+
+static constexpr double PI_2 = 1.57079632679;
 
 static constexpr std::string_view digits = "0123456789.";
 static constexpr std::string_view variables = "abcdefghijklmnopqrstuvwxyz"
@@ -48,7 +51,7 @@ static const std::array<std::function<double(double)>, 15> funcActions =
 	[](double op) { return std::sin(op); },
 	[](double op) { return std::cos(op); },
 	[](double op) { return std::tan(op); },
-	[](double op) { return std::tan(M_PI_2 - op); },
+    [](double op) { return std::tan(PI_2 - op); },
 	[](double op) { return std::sqrt(op); },
 	[](double op) { return std::abs(op); },
 	[](double op) { return std::round(op); },
@@ -57,7 +60,7 @@ static const std::array<std::function<double(double)>, 15> funcActions =
 	[](double op) { return std::asin(op); },
 	[](double op) { return std::acos(op); },
 	[](double op) { return std::atan(op); },
-	[](double op) { return M_PI_2 - std::atan(op); },
+    [](double op) { return PI_2 - std::atan(op); },
 	[](double op) { return std::log(op); },
 	[](double op) { return std::log10(op); },
 };

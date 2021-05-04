@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <exception>
 #include <functional>
+#include <cmath>
 
 #include "CustomException.h"
 

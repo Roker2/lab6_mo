@@ -11,5 +11,5 @@
 class Calculator
 {
 public:
-	static double calculate(const Func& func, const Properties& props = {});
+	static double calculate(FuncCPtr func, const Properties& props = {});
 };

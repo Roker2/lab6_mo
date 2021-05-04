@@ -5,38 +5,57 @@
 
 Func::Func(const std::string& funcInf)
 	: funcInf(funcInf)
+{}
+
+FuncPtr Func::makeFunc(const std::string &funcInf) noexcept
 {
-	Translator::translate(*this);
+	Func temp(funcInf);
+	auto func = std::make_shared<Func>(std::move(temp));
+    func->retranslate();
+    return func;
+}
+
+FuncPtr Func::makeFunc(FuncCPtr func) noexcept
+{
+	if (!func)
+        return nullptr;
+	return std::make_shared<Func>(*func);
 }
 
 std::string Func::getPost() const noexcept
 {
 	std::string result;
 	for (const auto& t : tokensPost)
-		result += t.getStr() + " ";
+		result += static_cast<std::string>(t) + " ";
 	return result;
 }
 
 void Func::retranslate() noexcept
 {
 	tokensPost.clear();
-	PROTECTED(Translator::translate(*this);, "Func retranslate ex:")
+	PROTECTED(Translator::translate(shared_from_this());, "Func retranslate ex:")
 }
 
-Func Func::derivative() const noexcept
+FuncPtr Func::derivative() const noexcept
 {
-	PROTECTED(return DerivativeCalculator::calculateDerivative(*this);, "Func derivative ex:")
-	return Func();
+	PROTECTED(return DerivativeCalculator::calculateDerivative(shared_from_this());, "Func derivative ex:")
+	return nullptr;
 }
 
-void Func::makeDerivative() noexcept
+void Func::setDerivative() noexcept
 {
-	PROTECTED(DerivativeCalculator::calculateDerivative(*this);, "Func derivative ex:")
+	PROTECTED(DerivativeCalculator::calculateDerivative(shared_from_this());, "Func derivative ex:")
 }
 
-double Func::operator()(const Properties& props)
+double Func::calculate(const Properties &props) const noexcept
 {
-	return Calculator::calculate(*this, props);
+	PROTECTED(return Calculator::calculate(shared_from_this(), props);, "Func::calculate")
+	return 0.0;
+}
+
+double Func::operator()(const Properties& props) const noexcept
+{
+	return calculate(props);
 }
 
 Func::operator std::string() const noexcept

@@ -7,6 +7,7 @@ SOURCES += \
         Calculator/Calculator.cpp \
         Calculator/DerivativeCalculator.cpp \
         Calculator/Func.cpp \
+        Calculator/FuncFragmentator.cpp \
         Calculator/Priority.cpp \
         Calculator/Tests.cpp \
         Calculator/Token.cpp \
@@ -23,6 +24,7 @@ HEADERS += \
     Calculator/Calculator.h \
     Calculator/DerivativeCalculator.h \
     Calculator/Func.h \
+    Calculator/FuncFragmentator.h \
     Calculator/Priority.h \
     Calculator/Property.h \
     Calculator/Tests.h \

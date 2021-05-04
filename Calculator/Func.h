@@ -3,16 +3,24 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <memory>
 
 #include "global.h"
 #include "Token.h"
 #include "Property.h"
 
-class Func
+using FuncPtr = std::shared_ptr<class Func>;
+using FuncCPtr = std::shared_ptr<const class Func>;
+
+class Func : public std::enable_shared_from_this<Func>
 {
-public:
+private:
 	Func(const std::string& funcInf = "");
+public:
 	~Func() = default;
+
+    static FuncPtr makeFunc(const std::string& funcInf = "") noexcept;
+    static FuncPtr makeFunc(FuncCPtr func) noexcept;
 
 	inline bool isComplete() const noexcept { return !tokensPost.empty(); }
 
@@ -20,10 +28,12 @@ public:
 
 	void retranslate() noexcept;
 
-	Func derivative() const noexcept;
-	void makeDerivative() noexcept;
+	FuncPtr derivative() const noexcept;
+	void setDerivative() noexcept;
 
-	double operator()(const Properties& props = {});
+	double calculate(const Properties& props = {}) const noexcept;
+
+	double operator()(const Properties& props = {}) const noexcept;
 	operator std::string() const noexcept;
 
 private:
@@ -33,5 +43,5 @@ private:
 
 	friend class Translator;
 	friend class Calculator;
+	friend class FuncFragmentator;
 };
-

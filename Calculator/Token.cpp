@@ -1,11 +1,16 @@
 #include "Token.h"
+#include "Func.h"
 #include "Translator.h"
 
-Token::Token(const std::string &t, TokenType type, std::optional<double> value)
+Token::Token(const std::string &t,
+			 TokenType type,
+			 std::optional<double> value,
+			 FuncPtr subfuncPtr)
 	: t(t),
 	  type(type),
 	  priority(::getPriority(this->t)),
-	  value(value)
+	  value(value),
+	  subfuncPtr(subfuncPtr)
 {}
 
 Token Token::parse(std::string &str)
@@ -50,7 +55,7 @@ Token Token::parse(std::string &str)
 				isAction = true;
 				size = static_cast<unsigned int>(action.length());
 				tokenStr = action;
-				type = TokenType::Func;
+				type = TokenType::Action;
 				break;
 			}
 		}
@@ -77,4 +82,11 @@ void Token::parseTokens(const std::string &str, std::vector<Token> &tokens)
 	{
 		tokens.push_back(parse(copy));
 	}
+}
+
+Token::operator std::string() const noexcept
+{
+	if (type == TokenType::Subfunc && !subfuncPtr.expired())
+		return subfuncPtr.lock()->getPost();
+	return getStr();
 }
