@@ -4,7 +4,6 @@ void Resolver::resolver(std::vector<Func>& gfuncs, const Properties& vectorx, Ma
 {
     std::vector<bool> activeFuncs;
     for (size_t i = 0; i < gfuncs.size(); i++) {
-        Translator::translate(gfuncs[i]);
         double res = gfuncs[i](vectorx);
         if(Approximate<double>::lessEqual(res, 0))
             // если ограничение работает как равенство, то ограничение активное
