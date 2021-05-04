@@ -5,7 +5,7 @@
 Priority getPriority(const std::string &str)
 {
 	if (str.empty())
-		throw CustomException("Translator getPriority ex: str empty");
+		throw CustomException("getPriority ex: str empty");
 	switch (str[0])
 	{
 	case '(':

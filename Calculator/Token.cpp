@@ -87,6 +87,6 @@ void Token::parseTokens(const std::string &str, std::vector<Token> &tokens)
 Token::operator std::string() const noexcept
 {
 	if (type == TokenType::Subfunc && !subfuncPtr.expired())
-		return subfuncPtr.lock()->getPost();
+		return subfuncPtr.lock()->getInf();
 	return getStr();
 }

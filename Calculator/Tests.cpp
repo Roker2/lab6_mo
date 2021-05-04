@@ -4,6 +4,10 @@
 #include "Translator.h"
 #include "Calculator.h"
 
+#define TEST(x) ((x() == true) \
+		? "test completed " + std::string(#x) + '\n' \
+		: "test failed    " + std::string(#x) + '\n' )
+
 #define TRANSLATOR_TEST(TEST_NUM, FUNC_INFIX, FUNC_POST_EXPECTED) \
 bool translatorTest##TEST_NUM() \
 { \
@@ -25,6 +29,19 @@ bool calculationTest##TEST_NUM() \
 	return std::abs(result - FUNC_RESULT_EXPECTED) < REAL_ERROR; \
 }
 
+#define FRAGMENTATION_TEST(TEST_NUM, FUNC_INFIX, SUBFUNC_COUNT_EXPECTED) \
+bool fragmentationTest##TEST_NUM() \
+{ \
+	FuncPtr func = Func::makeFunc(FUNC_INFIX); \
+	if (!func->isComplete()) return false; \
+	std::vector<FuncPtr> subfuncs = func->fragmentate(); \
+	std::cout << FUNC_INFIX << " | expected " << SUBFUNC_COUNT_EXPECTED \
+			  << " fragments" << std::endl; \
+	for (unsigned int i = 0; i < subfuncs.size(); i++) \
+		std::cout << i + 1 << ": " << static_cast<std::string>(*(subfuncs[i])) << std::endl; \
+	return subfuncs.size() == SUBFUNC_COUNT_EXPECTED; \
+}
+
 TRANSLATOR_TEST(0, "a + b - c + d", "a b + c - d + ")
 TRANSLATOR_TEST(1, "x1 * 2", "x1 2 * ")
 TRANSLATOR_TEST(2, "sin(4 * asd1f * y6z)", "4 asd1f * y6z * sin ")
@@ -43,16 +60,10 @@ CALCULATION_TEST(3, 0.1, "x^2.3 + 5*x - y^3.7 + 4*y", 141.641826487,
 CALCULATION_TEST(4, 0.1, "7 + (-sqrt(1-x^2-y+(y-abs(x))^4)) * cos(27*((1-x^2+(y-abs(x))^2)))",
 				 27.197, (Properties{{"x", 1.7}, {"y", 7.3}}))
 
+FRAGMENTATION_TEST(1, "x^3 - 3*x + y^3 - 3*y", 7)
+FRAGMENTATION_TEST(2, "sin(4 * asd1f * y6z)", 3)
+FRAGMENTATION_TEST(3, "5 + (-sqrt(1-x^2-(y-abs(x))^2)) * cos(30*((1-x^2-(y-abs(x))^2)))", 18)
 
-bool fragmentationTest1()
-{
-    FuncPtr func = Func::makeFunc("x^3 - 3*x + y^3 - 3*y");
-    if (!func->isComplete()) return false;
-    std::vector<FuncPtr> subfuncs = func->fragmentate();
-    for (const auto& subfunc : subfuncs)
-        std::cout << subfunc->getPost();
-    return true;
-}
 
 void tests()
 {
@@ -68,5 +79,7 @@ void tests()
 	std::cout << TEST(calculationTest3);
 	std::cout << TEST(calculationTest4);
 
-    std::cout << TEST(fragmentationTest1);
+	std::cout << TEST(fragmentationTest1);
+	std::cout << TEST(fragmentationTest2);
+	std::cout << TEST(fragmentationTest3);
 }

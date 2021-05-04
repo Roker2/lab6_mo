@@ -23,6 +23,11 @@ FuncPtr Func::makeFunc(FuncCPtr func) noexcept
 	return std::make_shared<Func>(*func);
 }
 
+const std::string &Func::getInf() const noexcept
+{
+	return funcInf;
+}
+
 std::string Func::getPost() const noexcept
 {
 	std::string result;
@@ -33,19 +38,21 @@ std::string Func::getPost() const noexcept
 
 void Func::retranslate() noexcept
 {
+	tokensInf.clear();
 	tokensPost.clear();
-    PROTECTED(Translator::translate(shared_from_this());, "Func retranslate ex: ")
+	if (!funcInf.empty())
+		PROTECTED(Translator::translate(shared_from_this());, "Func retranslate ex: ")
 }
 
-FuncPtr Func::derivative() const noexcept
+FuncPtr Func::derivative(const std::string &var) const noexcept
 {
-    PROTECTED(return DerivativeCalculator::calculateDerivative(shared_from_this());, "Func derivative ex: ")
+	PROTECTED(return DerivativeCalculator::calculateDerivative(shared_from_this(), var);, "Func derivative ex: ")
 	return nullptr;
 }
 
-void Func::setDerivative() noexcept
+void Func::setDerivative(const std::string &var) noexcept
 {
-    PROTECTED(DerivativeCalculator::calculateDerivative(shared_from_this());, "Func derivative ex: ")
+	PROTECTED(DerivativeCalculator::calculateDerivative(shared_from_this(), var);, "Func derivative ex: ")
 }
 
 double Func::calculate(const Properties &props) const noexcept

@@ -36,7 +36,7 @@ SquareMatrix& SquareMatrix::operator =(const Matrix& other)
 	if (&other == this)
 		return *this;
 	getData().clear();
-    resize(std::fmin(other.getM(), other.getN()));
+	resize(std::min(other.getM(), other.getN()));
 	doForMatrix([&other](Matrix& matrix, int i, int j)
 	{
 		matrix[i][j] = other[i][j];
