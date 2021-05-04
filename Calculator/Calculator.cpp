@@ -1,12 +1,12 @@
 #include "Calculator.h"
 
-double Calculator::calculate(const Func &func, const Properties& props)
+double Calculator::calculate(FuncCPtr func, const Properties& props)
 {
-	if (!func.isComplete())
+	if (!func || !func->isComplete())
 		throw CustomException("Calculator calculate ex: func is incomplete, func == "
-							  + static_cast<std::string>(func));
+							  + static_cast<std::string>(*func));
 	std::stack<double> stack;
-	for (const auto& t : func.tokensPost)
+	for (const auto& t : func->tokensPost)
 	{
 		switch (t.getType())
 		{
@@ -18,17 +18,6 @@ double Calculator::calculate(const Func &func, const Properties& props)
 				throw CustomException("Calculator calculate ex: var" + t.getStr() + " doesn't exist");
 			stack.push(props.at(t.getStr()));
 			break;
-		case TokenType::Func:
-		{
-			if (stack.size() < 1)
-				throw CustomException("Calculator calculate Func ex: operators count is greater than operands count");
-			auto op = stack.top();
-			stack.pop();
-			auto funcIndex = std::distance(allowableActions.begin(),
-					std::find(allowableActions.begin(), allowableActions.end(), t.getStr()));
-			stack.push(funcActions[static_cast<std::size_t>(funcIndex)](op));
-			break;
-		}
 		case TokenType::Operator:
 		{
 			if (stack.size() < 2)
@@ -42,8 +31,27 @@ double Calculator::calculate(const Func &func, const Properties& props)
 			stack.push(funcOperators[static_cast<std::size_t>(opIndex)](op1, op2));
 			break;
 		}
+		case TokenType::Action:
+		{
+			if (stack.size() < 1)
+				throw CustomException("Calculator calculate Func ex: operators count is greater than operands count");
+			auto op = stack.top();
+			stack.pop();
+			auto funcIndex = std::distance(allowableActions.begin(),
+					std::find(allowableActions.begin(), allowableActions.end(), t.getStr()));
+			stack.push(funcActions[static_cast<std::size_t>(funcIndex)](op));
+			break;
+		}
+		case TokenType::Subfunc:
+		{
+			if (!t.getSubfunc())
+				throw CustomException("Calculator calculate Func ex: invalid subfunc");
+			double result = Calculator::calculate(t.getSubfunc(), props);
+			stack.push(result);
+			break;
+		}
 		default:
-			throw CustomException("Calculator calculate ex:"
+			throw CustomException("Calculator calculate ex: "
 								  "unexpected TokenType == "
 								  + std::to_string(static_cast<int>(t.getType())));
 		}

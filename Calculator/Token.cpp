@@ -5,7 +5,7 @@
 Token::Token(const std::string &t,
 			 TokenType type,
 			 std::optional<double> value,
-			 Func* subfuncPtr)
+			 FuncPtr subfuncPtr)
 	: t(t),
 	  type(type),
 	  priority(::getPriority(this->t)),
@@ -82,4 +82,11 @@ void Token::parseTokens(const std::string &str, std::vector<Token> &tokens)
 	{
 		tokens.push_back(parse(copy));
 	}
+}
+
+Token::operator std::string() const noexcept
+{
+	if (type == TokenType::Subfunc && !subfuncPtr.expired())
+		return subfuncPtr.lock()->getPost();
+	return getStr();
 }

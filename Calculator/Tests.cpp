@@ -7,22 +7,20 @@
 #define TRANSLATOR_TEST(TEST_NUM, FUNC_INFIX, FUNC_POST_EXPECTED) \
 bool translatorTest##TEST_NUM() \
 { \
-	Func func(FUNC_INFIX); \
-	PROTECTED(Translator::translate(func);, "Translator test ex: ") \
-	if (!func.isComplete()) return false; \
-	std::cout << std::string(func) << " --> " << func.getPost() << std::endl; \
-	return func.getPost() == FUNC_POST_EXPECTED; \
+	FuncPtr func = Func::makeFunc(FUNC_INFIX); \
+	if (!func->isComplete()) return false; \
+	std::cout << static_cast<std::string>(*func) << " --> " << func->getPost() << std::endl; \
+	return func->getPost() == FUNC_POST_EXPECTED; \
 }
 
 #define CALCULATION_TEST(TEST_NUM, REAL_ERROR, FUNC_INFIX, \
 		FUNC_RESULT_EXPECTED, FUNC_PROPS) \
 bool calculationTest##TEST_NUM() \
 { \
-	Func func(FUNC_INFIX); \
-	PROTECTED(Translator::translate(func);, "calculator test ex: ") \
-	if (!func.isComplete()) return false; \
-	auto result = func(FUNC_PROPS); \
-	std::cout << std::string(func) << " == " << result \
+	FuncPtr func = Func::makeFunc(FUNC_INFIX); \
+	if (!func->isComplete()) return false; \
+	auto result = func->calculate(FUNC_PROPS); \
+	std::cout << static_cast<std::string>(*func) << " == " << result \
 			  << ", expected == " << FUNC_RESULT_EXPECTED << std::endl; \
 	return std::abs(result - FUNC_RESULT_EXPECTED) < REAL_ERROR; \
 }
