@@ -100,8 +100,12 @@ OPERATORS_TEST(4, "5 + (-sqrt(1-x^2-(y-abs(x))^2))", "cos(30*((1-x^2-(y-abs(x))^
 				"5 0 1 x 2 ^ - y x abs - 2 ^ - sqrt - + 30 1 x 2 ^ - y x abs - 2 ^ - * cos / ")
 
 DERIVATIVE_TEST(1, "1", "x", "0 ")
-DERIVATIVE_TEST(2, "x * x", "x", "1 x * x 1 * + ")
-DERIVATIVE_TEST(3, "y^3 - 3*z", "z", "y 3 ^ 0 y ln * 3 y / 0 * + * 0 z * 3 1 * + - ")
+DERIVATIVE_TEST(2, "x + z", "z", "0 1 + ")
+DERIVATIVE_TEST(3, "y - x", "x", "0 1 - ")
+DERIVATIVE_TEST(4, "x * x", "x", "1 x * x 1 * + ")
+DERIVATIVE_TEST(5, "y^3 - 3*z", "z", "y 3 ^ 0 y ln * 3 y / 0 * + * 0 z * 3 1 * + - ")
+DERIVATIVE_TEST(6, "x^3 - 3*x + y/3 - 3*y", "x",
+				"x 3 ^ 0 x ln * 3 x / 1 * + * 0 x * 3 1 * + - 0 3 * y 0 * - 3 2 ^ / + 0 y * 3 0 * + - ")
 
 void tests()
 {
@@ -129,4 +133,7 @@ void tests()
 	std::cout << TEST(derivativeTest1);
 	std::cout << TEST(derivativeTest2);
 	std::cout << TEST(derivativeTest3);
+	std::cout << TEST(derivativeTest4);
+	std::cout << TEST(derivativeTest5);
+	std::cout << TEST(derivativeTest6);
 }
