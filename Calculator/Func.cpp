@@ -5,9 +5,15 @@
 #include "DerivativeCalculator.h"
 
 #define FUNC_OPERATOR(OP) \
-FuncPtr operator OP(FuncCPtr f1, FuncCPtr f2) noexcept \
+FuncPtr operator OP(FuncCPtr f1, FuncCPtr f2) \
 { \
 	return Func::makeFunc("(" + f1->getInf() + ") " + std::string(#OP) + " (" + f2->getInf() + ")"); \
+}
+
+#define FUNC_ACTION(ACT) \
+FuncPtr ACT(FuncPtr f) \
+{ \
+	return Func::makeFunc(std::string(#ACT) + "(" + f->getInf() + ")"); \
 }
 
 Func::Func(const std::string& funcInf)
@@ -82,6 +88,22 @@ Func::operator std::string() const noexcept
 {
 	return funcInf;
 }
+
+FUNC_ACTION(sin)
+FUNC_ACTION(cos)
+FUNC_ACTION(tg)
+FUNC_ACTION(ctg)
+FUNC_ACTION(sqrt)
+FUNC_ACTION(abs)
+FUNC_ACTION(round)
+FUNC_ACTION(ceil)
+FUNC_ACTION(floor)
+FUNC_ACTION(asin)
+FUNC_ACTION(acos)
+FUNC_ACTION(atg)
+FUNC_ACTION(actg)
+FUNC_ACTION(ln)
+FUNC_ACTION(log)
 
 FUNC_OPERATOR(+)
 FUNC_OPERATOR(-)
