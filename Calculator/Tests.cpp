@@ -57,6 +57,19 @@ bool operatorsTest##TEST_NUM() \
 	return result->getPost() == FUNC_POST_EXPECTED; \
 }
 
+#define DERIVATIVE_TEST(TEST_NUM, FUNC_INFIX, VAR, FUNC_DERIVATIVE_POST_EXPECTED) \
+bool derivativeTest##TEST_NUM() \
+{ \
+	FuncPtr func = Func::makeFunc(FUNC_INFIX); \
+	if (!func->isComplete()) return false; \
+	auto result = func->derivative(VAR); \
+	if (!result) return false; \
+	std::cout << '\t' << FUNC_INFIX << std::endl; \
+	std::cout << "\tresult ==   " << result->getPost() << std::endl; \
+	std::cout << "\texpected == " << FUNC_DERIVATIVE_POST_EXPECTED << std::endl; \
+	return result->getPost() == FUNC_DERIVATIVE_POST_EXPECTED; \
+}
+
 TRANSLATOR_TEST(0, "a + b - c + d", "a b + c - d + ")
 TRANSLATOR_TEST(1, "x1 * 2", "x1 2 * ")
 TRANSLATOR_TEST(2, "sin(4 * asd1f * y6z)", "4 asd1f * y6z * sin ")
@@ -86,6 +99,10 @@ OPERATORS_TEST(3, "sqrt(x*x+y*y) + 3", "cos(sqrt(x*x+y*y)) + 5", *,
 OPERATORS_TEST(4, "5 + (-sqrt(1-x^2-(y-abs(x))^2))", "cos(30*((1-x^2-(y-abs(x))^2)))", /,
 				"5 0 1 x 2 ^ - y x abs - 2 ^ - sqrt - + 30 1 x 2 ^ - y x abs - 2 ^ - * cos / ")
 
+DERIVATIVE_TEST(1, "1", "x", "0 ")
+DERIVATIVE_TEST(2, "x * x", "x", "1 x * x 1 * + ")
+DERIVATIVE_TEST(3, "y^3 - 3*z", "z", "y 3 ^ 0 y ln * 3 y / 0 * + * 0 z * 3 1 * + - ")
+
 void tests()
 {
 	std::cout << TEST(translatorTest0);
@@ -108,4 +125,8 @@ void tests()
 	std::cout << TEST(operatorsTest2);
 	std::cout << TEST(operatorsTest3);
 	std::cout << TEST(operatorsTest4);
+
+	std::cout << TEST(derivativeTest1);
+	std::cout << TEST(derivativeTest2);
+	std::cout << TEST(derivativeTest3);
 }

@@ -25,6 +25,10 @@ public:
 	inline double getValue() const noexcept { return value.value_or(0.0); }
 	inline FuncPtr getSubfunc() const noexcept { return subfuncPtr; }
 
+	bool isOperator() const noexcept;
+	bool isAction() const noexcept;
+	bool isOperand() const noexcept;
+
 	static Token parse(std::string& str);
 	static void parseTokens(const std::string& str, std::vector<Token>& tokens);
 

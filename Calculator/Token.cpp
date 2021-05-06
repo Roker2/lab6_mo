@@ -13,6 +13,23 @@ Token::Token(const std::string &t,
 	  subfuncPtr(subfuncPtr)
 {}
 
+bool Token::isOperator() const noexcept
+{
+	return type == TokenType::Operator;
+}
+
+bool Token::isAction() const noexcept
+{
+	return type == TokenType::Action;
+}
+
+bool Token::isOperand() const noexcept
+{
+	return type == TokenType::Number
+		|| type == TokenType::Variable
+		|| type == TokenType::Subfunc;
+}
+
 Token Token::parse(std::string &str)
 {
 	unsigned int size = 0;
