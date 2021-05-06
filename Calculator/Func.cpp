@@ -58,13 +58,21 @@ void Func::retranslate() noexcept
 
 FuncPtr Func::derivative(const std::string& var) const noexcept
 {
-	PROTECTED(return DerivativeCalculator::calculateDerivative(shared_from_this(), var);, "Func derivative ex: ")
+	auto subfuncs = fragmentate();
+	if (subfuncs.size() == 0)
+		return nullptr;
+	PROTECTED(return DerivativeCalculator::calculateDerivative(subfuncs.back(), var);, "Func derivative ex: ")
 	return nullptr;
 }
 
 void Func::setDerivative(const std::string& var) noexcept
 {
-	PROTECTED(DerivativeCalculator::calculateDerivative(shared_from_this(), var);, "Func derivative ex: ")
+	auto derivative = Func::derivative(var);
+	if (!derivative)
+		return;
+	this->funcInf = derivative->funcInf;
+	this->tokensInf = derivative->tokensInf;
+	this->tokensPost = derivative->tokensPost;
 }
 
 double Func::calculate(const Properties &props) const noexcept

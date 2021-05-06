@@ -69,4 +69,5 @@ private:
 	friend class Translator;
 	friend class Calculator;
 	friend class FuncFragmentator;
+	friend class DerivativeCalculator;
 };
