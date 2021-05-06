@@ -30,7 +30,7 @@ public:
 	void retranslate() noexcept;
 
 	FuncPtr derivative(const std::string& var) const noexcept;
-	void setDerivative(const std::string &var) noexcept;
+	void setDerivative(const std::string& var) noexcept;
 
 	double calculate(const Properties& props = {}) const noexcept;
 
@@ -38,6 +38,28 @@ public:
 
 	double operator()(const Properties& props = {}) const noexcept;
 	operator std::string() const noexcept;
+
+	friend FuncPtr sin(FuncPtr f);
+	friend FuncPtr cos(FuncPtr f);
+	friend FuncPtr tg(FuncPtr f);
+	friend FuncPtr ctg(FuncPtr f);
+	friend FuncPtr sqrt(FuncPtr f);
+	friend FuncPtr abs(FuncPtr f);
+	friend FuncPtr round(FuncPtr f);
+	friend FuncPtr ceil(FuncPtr f);
+	friend FuncPtr floor(FuncPtr f);
+	friend FuncPtr asin(FuncPtr f);
+	friend FuncPtr acos(FuncPtr f);
+	friend FuncPtr atg(FuncPtr f);
+	friend FuncPtr actg(FuncPtr f);
+	friend FuncPtr ln(FuncPtr f);
+	friend FuncPtr log(FuncPtr f);
+
+	friend FuncPtr operator +(FuncCPtr f1, FuncCPtr f2);
+	friend FuncPtr operator -(FuncCPtr f1, FuncCPtr f2);
+	friend FuncPtr operator *(FuncCPtr f1, FuncCPtr f2);
+	friend FuncPtr operator /(FuncCPtr f1, FuncCPtr f2);
+	friend FuncPtr operator ^(FuncCPtr f1, FuncCPtr f2);
 
 private:
 	std::string funcInf;
@@ -47,4 +69,5 @@ private:
 	friend class Translator;
 	friend class Calculator;
 	friend class FuncFragmentator;
+	friend class DerivativeCalculator;
 };
