@@ -35,6 +35,11 @@ FuncPtr Func::makeFunc(FuncCPtr func) noexcept
 	return std::make_shared<Func>(*func);
 }
 
+bool Func::isComplete() const noexcept
+{
+	return !tokensPost.empty();
+}
+
 const std::string &Func::getInf() const noexcept
 {
 	return funcInf;
@@ -58,10 +63,10 @@ void Func::retranslate() noexcept
 
 FuncPtr Func::derivative(const std::string& var) const noexcept
 {
-	auto subfuncs = fragmentate();
-	if (subfuncs.size() == 0)
+	auto fragmentated = fragmentate();
+	if (!fragmentated)
 		return nullptr;
-	PROTECTED(return DerivativeCalculator::calculateDerivative(subfuncs.back(), var);, "Func derivative ex: ")
+	PROTECTED(return DerivativeCalculator::calculateDerivative(fragmentated, var);, "Func derivative ex: ")
 	return nullptr;
 }
 
@@ -81,15 +86,26 @@ double Func::calculate(const Properties &props) const noexcept
     return 0.0;
 }
 
-std::vector<FuncPtr> Func::fragmentate() const noexcept
+FuncPtr Func::fragmentate() const noexcept
 {
     PROTECTED(return FuncFragmentator::fragmentate(shared_from_this());, "Func fragmentate ex: ")
-    return {};
+	return nullptr;
 }
 
 double Func::operator()(const Properties& props) const noexcept
 {
 	return calculate(props);
+}
+
+int Func::countFragments(FuncCPtr func) noexcept
+{
+	if (!func)
+		return std::numeric_limits<int>::min();
+	int result = 1;
+	for (const auto& t : func->tokensPost)
+		if (t.getType() == TokenType::Subfunc)
+			result += countFragments(t.getSubfunc());
+	return result;
 }
 
 Func::operator std::string() const noexcept

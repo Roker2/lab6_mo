@@ -9,5 +9,5 @@
 class FuncFragmentator
 {
 public:
-    static std::vector<FuncPtr> fragmentate(FuncCPtr func);
+	static FuncPtr fragmentate(FuncCPtr func);
 };

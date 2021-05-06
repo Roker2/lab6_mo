@@ -23,7 +23,11 @@ public:
 	inline TokenType getType() const noexcept { return type; }
 	inline Priority getPriority() const noexcept { return priority; }
 	inline double getValue() const noexcept { return value.value_or(0.0); }
-	inline FuncPtr getSubfunc() const noexcept { return subfuncPtr.lock(); }
+	inline FuncPtr getSubfunc() const noexcept { return subfuncPtr; }
+
+	bool isOperator() const noexcept;
+	bool isAction() const noexcept;
+	bool isOperand() const noexcept;
 
 	static Token parse(std::string& str);
 	static void parseTokens(const std::string& str, std::vector<Token>& tokens);
@@ -35,5 +39,5 @@ private:
 	TokenType type;
 	Priority priority;
 	std::optional<double> value;
-	std::weak_ptr<Func> subfuncPtr;
+	std::shared_ptr<Func> subfuncPtr;
 };
