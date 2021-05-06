@@ -22,7 +22,7 @@ public:
     static FuncPtr makeFunc(const std::string& funcInf = "") noexcept;
     static FuncPtr makeFunc(FuncCPtr func) noexcept;
 
-	inline bool isComplete() const noexcept { return !tokensPost.empty(); }
+	bool isComplete() const noexcept;
 
 	const std::string& getInf() const noexcept;
 	std::string getPost() const noexcept;
@@ -34,7 +34,7 @@ public:
 
 	double calculate(const Properties& props = {}) const noexcept;
 
-    std::vector<FuncPtr> fragmentate() const noexcept;
+	FuncPtr fragmentate() const noexcept;
 
 	double operator()(const Properties& props = {}) const noexcept;
 	operator std::string() const noexcept;
@@ -60,6 +60,8 @@ public:
 	friend FuncPtr operator *(FuncCPtr f1, FuncCPtr f2);
 	friend FuncPtr operator /(FuncCPtr f1, FuncCPtr f2);
 	friend FuncPtr operator ^(FuncCPtr f1, FuncCPtr f2);
+
+	static int countFragments(FuncCPtr func) noexcept;
 
 private:
 	std::string funcInf;

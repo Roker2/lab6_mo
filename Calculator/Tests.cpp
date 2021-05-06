@@ -13,7 +13,7 @@ bool translatorTest##TEST_NUM() \
 { \
 	FuncPtr func = Func::makeFunc(FUNC_INFIX); \
 	if (!func->isComplete()) return false; \
-	std::cout << static_cast<std::string>(*func) << " --> " << func->getPost() << std::endl; \
+	std::cout << '\t' << static_cast<std::string>(*func) << " --> " << func->getPost() << std::endl; \
 	return func->getPost() == FUNC_POST_EXPECTED; \
 }
 
@@ -24,7 +24,7 @@ bool calculationTest##TEST_NUM() \
 	FuncPtr func = Func::makeFunc(FUNC_INFIX); \
 	if (!func->isComplete()) return false; \
 	auto result = func->calculate(FUNC_PROPS); \
-	std::cout << static_cast<std::string>(*func) << " == " << result \
+	std::cout << '\t' << static_cast<std::string>(*func) << " == " << result \
 			  << ", expected == " << FUNC_RESULT_EXPECTED << std::endl; \
 	return std::abs(result - FUNC_RESULT_EXPECTED) < REAL_ERROR; \
 }
@@ -34,12 +34,13 @@ bool fragmentationTest##TEST_NUM() \
 { \
 	FuncPtr func = Func::makeFunc(FUNC_INFIX); \
 	if (!func->isComplete()) return false; \
-	std::vector<FuncPtr> subfuncs = func->fragmentate(); \
-	std::cout << FUNC_INFIX << " | expected " << SUBFUNC_COUNT_EXPECTED \
-			  << " fragments" << std::endl; \
-	for (unsigned int i = 0; i < subfuncs.size(); i++) \
-		std::cout << i + 1 << ": " << static_cast<std::string>(*(subfuncs[i])) << std::endl; \
-	return subfuncs.size() == SUBFUNC_COUNT_EXPECTED; \
+	auto fragmentated = func->fragmentate(); \
+	auto countFragments = Func::countFragments(fragmentated); \
+	std::cout << '\t' << FUNC_INFIX << std::endl; \
+	std::cout << "\tresult == " << static_cast<std::string>(*(fragmentated)) << std::endl; \
+	std::cout << "\tresult " << countFragments << " fragments count" << std::endl; \
+	std::cout << "\texpected " << SUBFUNC_COUNT_EXPECTED << " fragments count" << std::endl; \
+	return Func::countFragments(fragmentated) == SUBFUNC_COUNT_EXPECTED; \
 }
 
 #define OPERATORS_TEST(TEST_NUM, FUNC_INFIX1, FUNC_INFIX2, OP, FUNC_POST_EXPECTED) \

@@ -1,11 +1,10 @@
 #include "FuncFragmentator.h"
 
-std::vector<FuncPtr> FuncFragmentator::fragmentate(FuncCPtr func)
+FuncPtr FuncFragmentator::fragmentate(FuncCPtr func)
 {
 	if (!func || !func->isComplete())
 		throw CustomException("FuncFragmentator fragmentate ex: func is incomplete, func == "
 							  + static_cast<std::string>(*func));
-	std::vector<FuncPtr> fragments;
 	std::stack<Token> stack;
 	for (unsigned int i = 0; i < func->tokensPost.size(); i++)
 	{
@@ -34,7 +33,6 @@ std::vector<FuncPtr> FuncFragmentator::fragmentate(FuncCPtr func)
 			subfunc->tokensPost.push_back(op);
 			subfunc->tokensPost.push_back(t);
 			stack.push(Token("subfunc", TokenType::Subfunc, std::nullopt, subfunc));
-			fragments.emplace_back(subfunc);
 			break;
 		}
 		case TokenType::Operator:
@@ -57,7 +55,6 @@ std::vector<FuncPtr> FuncFragmentator::fragmentate(FuncCPtr func)
 			subfunc->tokensPost.push_back(op2);
 			subfunc->tokensPost.push_back(t);
 			stack.push(Token("subfunc", TokenType::Subfunc, std::nullopt, subfunc));
-			fragments.emplace_back(subfunc);
 			break;
 		}
 		default:
@@ -66,5 +63,20 @@ std::vector<FuncPtr> FuncFragmentator::fragmentate(FuncCPtr func)
 								  + std::to_string(static_cast<int>(t.getType())));
 		}
 	}
-	return fragments;
+	if (stack.size() != 1)
+		throw CustomException("FuncFragmentator fragmentate ex: stack is "
+							  + std::to_string(stack.size()) + " size");
+	switch (stack.top().getType())
+	{
+	case TokenType::Number:
+		[[fallthrough]];
+	case TokenType::Variable:
+		return Func::makeFunc(stack.top().getStr());
+	case TokenType::Subfunc:
+		return stack.top().getSubfunc();
+	default:
+		throw CustomException("FuncFragmentator fragmentate ex: "
+							  "unexpected result TokenType == "
+							  + std::to_string(static_cast<int>(stack.top().getType())));
+	}
 }
