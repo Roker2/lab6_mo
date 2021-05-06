@@ -4,6 +4,12 @@
 #include "FuncFragmentator.h"
 #include "DerivativeCalculator.h"
 
+#define FUNC_OPERATOR(OP) \
+FuncPtr operator OP(FuncCPtr f1, FuncCPtr f2) noexcept \
+{ \
+	return Func::makeFunc("(" + f1->getInf() + ") " + std::string(#OP) + " (" + f2->getInf() + ")"); \
+}
+
 Func::Func(const std::string& funcInf)
 	: funcInf(funcInf)
 {}
@@ -44,13 +50,13 @@ void Func::retranslate() noexcept
 		PROTECTED(Translator::translate(shared_from_this());, "Func retranslate ex: ")
 }
 
-FuncPtr Func::derivative(const std::string &var) const noexcept
+FuncPtr Func::derivative(const std::string& var) const noexcept
 {
 	PROTECTED(return DerivativeCalculator::calculateDerivative(shared_from_this(), var);, "Func derivative ex: ")
 	return nullptr;
 }
 
-void Func::setDerivative(const std::string &var) noexcept
+void Func::setDerivative(const std::string& var) noexcept
 {
 	PROTECTED(DerivativeCalculator::calculateDerivative(shared_from_this(), var);, "Func derivative ex: ")
 }
@@ -76,3 +82,9 @@ Func::operator std::string() const noexcept
 {
 	return funcInf;
 }
+
+FUNC_OPERATOR(+)
+FUNC_OPERATOR(-)
+FUNC_OPERATOR(*)
+FUNC_OPERATOR(/)
+FUNC_OPERATOR(^)

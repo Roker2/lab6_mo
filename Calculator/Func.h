@@ -30,7 +30,7 @@ public:
 	void retranslate() noexcept;
 
 	FuncPtr derivative(const std::string& var) const noexcept;
-	void setDerivative(const std::string &var) noexcept;
+	void setDerivative(const std::string& var) noexcept;
 
 	double calculate(const Properties& props = {}) const noexcept;
 
@@ -38,6 +38,12 @@ public:
 
 	double operator()(const Properties& props = {}) const noexcept;
 	operator std::string() const noexcept;
+
+	friend FuncPtr operator +(FuncCPtr f1, FuncCPtr f2) noexcept;
+	friend FuncPtr operator -(FuncCPtr f1, FuncCPtr f2) noexcept;
+	friend FuncPtr operator *(FuncCPtr f1, FuncCPtr f2) noexcept;
+	friend FuncPtr operator /(FuncCPtr f1, FuncCPtr f2) noexcept;
+	friend FuncPtr operator ^(FuncCPtr f1, FuncCPtr f2) noexcept;
 
 private:
 	std::string funcInf;
