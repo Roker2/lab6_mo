@@ -30,20 +30,24 @@ void Resolver::resolver(std::vector<FuncPtr>& gFuncs, const Properties& vectorx,
         Matrix(1, n, {{2, 0, 2}}),
         Matrix(1, n, {{0, -1, 1}}),
         Matrix(1, n, {{-1, 0, 0}}),
-    };
-    Matrix fVector(1, 3, {{0, 0, 3}});*/
+    };*/
 
     // TODO: Убрать заранее готовые значения, они будут вычислены блоком с производными
     std::vector<Matrix> gVectors = {
         Matrix(1, gFuncs.size(), {{-2, 0, -2}}),
         Matrix(1, gFuncs.size(), {{0, -1, 0}}),
     };
-    Matrix fVector(1, 3, {{4, 4, 4}});
+    Matrix fVector(1, vectorx.size());
+    for (size_t i = 0; i < vectorx.size(); i++) {
+         fVector[0][i] = fFunc->derivative("x" + std::to_string(i + 1))->calculate(vectorx);
+    }
 
     fVector.transpose();
-    for (int i = 0; i < n; i++)
+    // Это для метода Гаусса
+    // Мы переносим числа в правую сторону, а слева остаются переменные с коэффициентами
+    std::cout << "fVector:\n" << fVector << std::endl;
+    for (int i = 0; i < vectorx.size(); i++)
         fVector[i][0] *= -1;
-    std::cout << fVector << std::endl;
 
     for (size_t i = 0; i < gVectors.size(); i++) {
         gVectors[i].transpose();
