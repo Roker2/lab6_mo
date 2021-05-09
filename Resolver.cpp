@@ -33,10 +33,23 @@ void Resolver::resolver(std::vector<FuncPtr>& gFuncs, const Properties& vectorx,
     };*/
 
     // TODO: Убрать заранее готовые значения, они будут вычислены блоком с производными
-    std::vector<Matrix> gVectors = {
+    /*std::vector<Matrix> gVectors = {
         Matrix(1, gFuncs.size(), {{-2, 0, -2}}),
         Matrix(1, gFuncs.size(), {{0, -1, 0}}),
-    };
+    };*/
+    std::vector<Matrix> gVectors;
+
+    for(size_t i = 0; i < gFuncs.size(); i++) {
+        if (!activeFuncs[i])
+            continue;
+        Matrix temp(1, vectorx.size());
+        for(size_t j = 0; j < vectorx.size(); j++) {
+            temp[0][j] = gFuncs[i]->derivative("x" + std::to_string(j + 1))->calculate(vectorx);
+            std::cout << "derivative from " << "x" + std::to_string(j + 1) << ": " << gFuncs[i]->derivative("x" + std::to_string(j + 1))->getInf() << std::endl;
+        }
+        gVectors.push_back(temp);
+    }
+
     Matrix fVector(1, vectorx.size());
     for (size_t i = 0; i < vectorx.size(); i++) {
          fVector[0][i] = fFunc->derivative("x" + std::to_string(i + 1))->calculate(vectorx);
