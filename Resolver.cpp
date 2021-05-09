@@ -51,7 +51,7 @@ void Resolver::resolver(std::vector<FuncPtr>& gFuncs, const Properties& vectorx,
 
     for (size_t i = 0; i < gVectors.size(); i++) {
         gVectors[i].transpose();
-        std::cout << gVectors[i] << std::endl;
+        std::cout << "gVectors[" << i << "]:\n" << gVectors[i] << std::endl;
     }
 
     SquareMatrix A(n);
@@ -74,11 +74,11 @@ void Resolver::resolver(std::vector<FuncPtr>& gFuncs, const Properties& vectorx,
             vectorIndex++;
         }
 
-    std::cout << A << std::endl;
+    std::cout << "A:\n" << A << std::endl;
 
     Matrix lambdasVector = GaussMethod::method(A, fVector);
 
-    std::cout << lambdasVector << std::endl;
+    std::cout << "lambdaVector:\n" << lambdasVector << std::endl;
     for (int i = 0; i < n; i++)
         if (Approximate<double>::less(lambdasVector[i][0], 0)) {
             std::cout << "lambda" << i << " is negative, vector x is not optimal" << std::endl;
