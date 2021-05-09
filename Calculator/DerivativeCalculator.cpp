@@ -86,6 +86,9 @@ FuncPtr DerivativeCalculator::calculateDerivativeTriple(FuncCPtr func, const std
 	auto f1der = calculateDerivative(t1, var),
 		 f2der = calculateDerivative(t2, var);
 
+	if (t1.getType() == TokenType::Number && t2.getType() == TokenType::Number)
+		return Func::makeFunc("0");
+
 	switch (op.getStr()[0])
 	{
 	case '+':
@@ -93,11 +96,30 @@ FuncPtr DerivativeCalculator::calculateDerivativeTriple(FuncCPtr func, const std
 	case '-':
 		return f1der - f2der;
 	case '*':
-		return (f1der * f2) + (f1 * f2der);
+	{
+		if (t1.getType() == TokenType::Number)
+			return f1 * f2der;
+		if (t2.getType() == TokenType::Number)
+			return f1der * f2;
+		else
+			return (f1der * f2) + (f1 * f2der);
+	}
 	case '/':
-		return (f1der * f2 - f1 * f2der) / (f2 ^ Func::makeFunc("2"));
+	{
+		if (t2.getType() == TokenType::Number)
+			return f1der / f2;
+		else
+			return (f1der * f2 - f1 * f2der) / (f2 ^ Func::makeFunc("2"));
+	}
 	case '^':
-		return (f1 ^ f2) * (f2der * ln(f1) + f2 / f1 * f1der);
+	{
+		if (t1.getType() == TokenType::Number)
+			return (f1 ^ f2) * ln(f1) * f2der;
+		else if (t2.getType() == TokenType::Number)
+			return (f1 ^ f2) * f2 / f1 * f1der;
+		else
+			return (f1 ^ f2) * (f2der * ln(f1) + f2 / f1 * f1der);
+	}
 	default:
 		throw CustomException("DerivativeCalculator calculateDerivativeTriple Func ex: "
 							  "unexpected operator token == " + op.getStr());
