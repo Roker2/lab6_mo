@@ -103,9 +103,11 @@ DERIVATIVE_TEST(1, "1", "x", "0 ")
 DERIVATIVE_TEST(2, "x + z", "z", "0 1 + ")
 DERIVATIVE_TEST(3, "y - x", "x", "0 1 - ")
 DERIVATIVE_TEST(4, "x * x", "x", "1 x * x 1 * + ")
-DERIVATIVE_TEST(5, "y^3 - 3*z", "z", "y 3 ^ 0 y ln * 3 y / 0 * + * 0 z * 3 1 * + - ")
+DERIVATIVE_TEST(5, "y^3 - 3*z", "z", "y 3 ^ 3 * y / 0 * 3 1 * - ")
 DERIVATIVE_TEST(6, "x^3 - 3*x + y/3 - 3*y", "x",
-				"x 3 ^ 0 x ln * 3 x / 1 * + * 0 x * 3 1 * + - 0 3 * y 0 * - 3 2 ^ / + 0 y * 3 0 * + - ")
+				"x 3 ^ 3 * x / 1 * 3 1 * - 0 3 / + 3 0 * - ")
+DERIVATIVE_TEST(7, "(x1 - 2) ^ 2 + (x3 - 2) ^ 2 - 2", "x1",
+				"x1 2 - 2 ^ 2 * x1 2 - / 1 0 - * x3 2 - 2 ^ 2 * x3 2 - / 0 0 - * + 0 - ")
 
 void tests()
 {
@@ -136,4 +138,5 @@ void tests()
 	std::cout << TEST(derivativeTest4);
 	std::cout << TEST(derivativeTest5);
 	std::cout << TEST(derivativeTest6);
+	std::cout << TEST(derivativeTest7);
 }
