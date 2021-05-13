@@ -3,12 +3,15 @@
 void Resolver::resolver(std::vector<FuncPtr>& gFuncs, const Properties& vectorx, FuncCPtr fFunc)
 {
     std::vector<bool> activeFuncs;
+    std::set<size_t> I0;
     for (size_t i = 0; i < gFuncs.size(); i++) {
         double res = gFuncs[i]->calculate(vectorx);
         if(Approximate<double>::lessEqual(res, 0))
             // если ограничение работает как равенство, то ограничение активное
-            if(Approximate<double>::equal(res, 0))
+            if(Approximate<double>::equal(res, 0)) {
                 activeFuncs.push_back(true);
+                I0.insert(i);
+            }
             // в противном случае неактивное
             else
                 activeFuncs.push_back(false);
@@ -19,10 +22,7 @@ void Resolver::resolver(std::vector<FuncPtr>& gFuncs, const Properties& vectorx,
     }
 
     // посчитаем количество активных функций
-    int n = 0;
-    for (bool status : activeFuncs)
-        if (status)
-            n++;
+    int n = I0.size();
 
     std::vector<Matrix> gVectors;
 
