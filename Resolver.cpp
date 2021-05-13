@@ -91,4 +91,32 @@ void Resolver::resolver(std::vector<FuncPtr>& gFuncs, const Properties& vectorx,
         std::cout << "vector x is optimal" << std::endl;
         return;
     }
+
+    std::set<int> J0;
+    for(size_t i = 0; i < vectorx.size(); i++)
+        if(Approximate<double>::equal(vectorx.at("x" + std::to_string(i + 1)), 0))
+            J0.insert(i);
+
+    // Кол-во gi(x) (I0.size) + vectorx.size() условий с d со * вверху + vectorx.size() условий с d со * внизу
+    Matrix c(1, n + 2 * vectorx.size());
+    for (int i = 0; i < fVector.getM(); i++)
+        c[0][i] = -fVector[i][0]; // возвращаем в надлежащее состояние
+
+    std::cout << fVector << std::endl;
+    std::cout << c << std::endl << std::endl;
+
+    // заполняем матрицу элементами из gVectors
+    Matrix As(n + 2 * vectorx.size(), vectorx.size() + n + 2 * vectorx.size());
+    for(size_t i = 0; i < I0.size(); i++)
+        for(int j = 0; j < gVectors[i].getM(); j++)
+            As[i][j] = gVectors[i][j][0];
+
+    for (size_t i = 0; i < vectorx.size(); i++) {
+        As[i + vectorx.size()][i] = 1;
+        if(J0.find(i) != J0.end())
+            As[i + vectorx.size() * 2][i] = -1;
+    }
+    for(size_t i = 0; i < n + 2 * vectorx.size(); i++)
+        As[i][i + n] = 1;
+    std::cout << As << std::endl;
 }
