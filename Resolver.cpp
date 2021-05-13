@@ -118,6 +118,17 @@ void Resolver::resolver(std::vector<FuncPtr>& gFuncs, const Properties& vectorx,
         As[i][i + vectorx.size()] = 1;
     std::cout << As << std::endl;
 
+    Matrix b (1, As.getM());
+    Matrix d_low(1, vectorx.size());
+    for (size_t i = 0; i < vectorx.size(); i++)
+        // если не входит в J0, то ставим -1, в противном случае 0, который стоит по умолчанию
+        if (J0.find(i) == J0.end())
+            d_low[0][i] = -1;
+
+    Matrix temp = A * d_low;
+
+    std::cout << "d_low: " << d_low << std::endl;
+
     std::set<int> Jb;
     for (int i = n; i < As.getN(); i++)
         Jb.insert(i);
