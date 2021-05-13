@@ -79,10 +79,16 @@ void Resolver::resolver(std::vector<FuncPtr>& gFuncs, const Properties& vectorx,
     Matrix lambdasVector = GaussMethod::method(A, fVector);
 
     std::cout << "lambdaVector:\n" << lambdasVector << std::endl;
+
+    bool optimal = true;
     for (int i = 0; i < n; i++)
         if (Approximate<double>::less(lambdasVector[i][0], 0)) {
             std::cout << "lambda" << i << " is negative, vector x is not optimal" << std::endl;
-            return;
+            optimal = false;
+            break;
         }
-    std::cout << "vector x is optimal" << std::endl;
+    if (optimal) {
+        std::cout << "vector x is optimal" << std::endl;
+        return;
+    }
 }
