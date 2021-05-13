@@ -24,19 +24,6 @@ void Resolver::resolver(std::vector<FuncPtr>& gFuncs, const Properties& vectorx,
         if (status)
             n++;
 
-    // TODO: Здесь должен быть блок с производными
-
-    /*std::vector<Matrix> gVectors = {
-        Matrix(1, n, {{2, 0, 2}}),
-        Matrix(1, n, {{0, -1, 1}}),
-        Matrix(1, n, {{-1, 0, 0}}),
-    };*/
-
-    // TODO: Убрать заранее готовые значения, они будут вычислены блоком с производными
-    /*std::vector<Matrix> gVectors = {
-        Matrix(1, gFuncs.size(), {{-2, 0, -2}}),
-        Matrix(1, gFuncs.size(), {{0, -1, 0}}),
-    };*/
     std::vector<Matrix> gVectors;
 
     for(size_t i = 0; i < gFuncs.size(); i++) {
