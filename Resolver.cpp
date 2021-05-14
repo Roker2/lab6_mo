@@ -148,5 +148,8 @@ void Resolver::resolver(std::vector<FuncPtr>& gFuncs, const Properties& vectorx,
         std::cout << "I can not find optimal l" << std::endl;
         return;
     }
+    l.resize(vectorx.size());
+    for (size_t i = 0; i < vectorx.size(); i++)
+        l[i] += d_low[0][i];
     std::cout << "l: " << l << std::endl;
 }
