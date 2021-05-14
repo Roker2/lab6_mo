@@ -170,5 +170,5 @@ double Resolver::getAlpha(Matrix fVector, Matrix l0, Matrix deltaX)
     Matrix temp1 = fVector * l0;
     Matrix temp2 = fVector * deltaX;
     double alpha = - temp1[0][0] / temp2[0][0];
-    return alpha - (fabs(alpha) * 0.1); // Знак строгий, я решил почему бы не взять 90% от альфа, которая подошла бы для уравнения
+    return alpha - alpha * 0.1; // Знак строгий, я решил почему бы не взять 90% от альфа, которая подошла бы для уравнения
 }
