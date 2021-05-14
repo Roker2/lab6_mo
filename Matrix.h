@@ -34,6 +34,8 @@ public:
     Matrix operator +(const Matrix& right) const;
     Matrix operator -(const Matrix& right) const;
 
+    Matrix operator *(const double& right) const;
+
     std::vector<double>& operator [](int index);
     const std::vector<double>& operator [](int index) const;
 

@@ -127,6 +127,15 @@ Matrix Matrix::operator-(const Matrix &right) const
     return result;
 }
 
+Matrix Matrix::operator*(const double& right) const
+{
+    Matrix result = *this; // copy current matrix
+    for (int i = 0; i < getM(); i++)
+        for (int j = 0; j < getN(); j++)
+            result[i][j] *= right;
+    return result;
+}
+
 std::vector<double>& Matrix::operator[](int index)
 {
 	return data[index];
