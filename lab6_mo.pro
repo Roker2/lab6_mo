@@ -20,7 +20,7 @@ SOURCES += \
         main.cpp
 
 HEADERS += \
-    Appxomate.h \
+    Approximate.h \
     Calculator/Calculator.h \
     Calculator/DerivativeCalculator.h \
     Calculator/Func.h \

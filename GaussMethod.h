@@ -1,7 +1,7 @@
 #ifndef GAUSSMETHOD_H
 #define GAUSSMETHOD_H
 
-#include "Appxomate.h"
+#include "Approximate.h"
 #include "SquareMatrix.h"
 
 class GaussMethod

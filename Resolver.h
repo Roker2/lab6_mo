@@ -1,7 +1,7 @@
 #ifndef RESOLVER_H
 #define RESOLVER_H
 
-#include "Appxomate.h"
+#include "Approximate.h"
 #include "GaussMethod.h"
 #include "Calculator/Func.h"
 #include "Calculator/Property.h"

@@ -1,5 +1,5 @@
 #include "SquareMatrix.h"
-#include "Appxomate.h"
+#include "Approximate.h"
 
 SquareMatrix::SquareMatrix(int size)
 	: Matrix(size, size)
