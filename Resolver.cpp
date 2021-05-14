@@ -46,7 +46,7 @@ void Resolver::resolver(std::vector<FuncPtr>& gFuncs, const Properties& vectorx,
     // Это для метода Гаусса
     // Мы переносим числа в правую сторону, а слева остаются переменные с коэффициентами
     std::cout << "fVector:\n" << fVector << std::endl;
-    for (int i = 0; i < vectorx.size(); i++)
+    for (size_t i = 0; i < vectorx.size(); i++)
         fVector[i][0] *= -1;
 
     for (size_t i = 0; i < gVectors.size(); i++) {
