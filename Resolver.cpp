@@ -132,9 +132,13 @@ void Resolver::resolver(std::vector<FuncPtr>& gFuncs, const Properties& vectorx,
     for (int i = 0; i < d_low.getN(); i++)
         b[0][i + vectorx.size()] = 1 - d_low[0][i]; // 1, так как d_up всегда состоит из единиц
     std::cout << "b\n" << b << std::endl;
+    b.transpose();
 
     std::set<int> Jb;
     for (int i = n; i < As.getN(); i++)
         Jb.insert(i);
     std::cout << "Jb: " << Jb << std::endl;
+
+    std::vector<double> x = SimplexMethod::calculateXVector(As, Jb, b);
+    std::cout << "x: " << x << std::endl;
 }

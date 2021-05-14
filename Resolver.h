@@ -5,6 +5,7 @@
 #include "GaussMethod.h"
 #include "Calculator/Func.h"
 #include "Calculator/Property.h"
+#include "SimplexMethod/SimplexMethod.h"
 
 class Resolver
 {
