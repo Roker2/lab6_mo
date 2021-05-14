@@ -160,6 +160,14 @@ void Resolver::resolver(std::vector<FuncPtr>& gFuncs, const Properties& vectorx,
         deltaX[0][i] = vectorXWithLid.at("x" + std::to_string(i + 1) + "_lid") - vectorx.at("x" + std::to_string(i + 1));
 
     double alpha = getAlpha(fVector, Matrix(1, l.size(), {l}), deltaX);
+
+    Matrix vectorXStar(1, vectorx.size());
+    for (size_t i = 0; i < vectorx.size(); i++)
+        vectorXStar[0][i] = vectorx.at("x" + std::to_string(i + 1));
+
+    //std::cout << "test\n" << vectorXStar + (Matrix(1, l.size(), {l}) + deltaX * alpha) * 0.5 << std::endl;
+    //std::cout << getT(vectorXStar, Matrix(1, l.size(), {l}), deltaX, fFunc->calculate(vectorx), fFunc, gFuncs, alpha) << std::endl;
+    std::cout << vectorXStar << std::endl << vectorXStar * 0.1 << std::endl;
 }
 
 double Resolver::getAlpha(Matrix fVector, Matrix l0, Matrix deltaX)
@@ -171,4 +179,32 @@ double Resolver::getAlpha(Matrix fVector, Matrix l0, Matrix deltaX)
     Matrix temp2 = fVector * deltaX;
     double alpha = - temp1[0][0] / temp2[0][0];
     return alpha - alpha * 0.1; // Знак строгий, я решил почему бы не взять 90% от альфа, которая подошла бы для уравнения
+}
+
+double Resolver::getT(Matrix vectorXStar, Matrix l0, Matrix deltaX, double fRes, FuncCPtr fFunc, std::vector<FuncPtr> gFuncs, double alpha)
+{
+    for (int i = 1; i < 1000; i++) {
+        Properties tmp = getXt(vectorXStar, l0, deltaX, 0.1 * i, alpha);
+        if (Approximate<double>::less(fFunc->calculate(tmp), fRes)) {
+            bool isNotOkay = false;
+            for (FuncCPtr gFunc : gFuncs) {
+                if (Approximate<double>::greater(gFunc->calculate(tmp), 0)) {
+                    isNotOkay = true;
+                    break;
+                }
+            }
+            if (!isNotOkay)
+                return 0.1 * i;
+        }
+    }
+    return -1;
+}
+
+Properties Resolver::getXt(Matrix vectorXStar, Matrix l0, Matrix deltaX, double t, double alpha)
+{
+    Matrix xt = vectorXStar + (l0 + deltaX * alpha) * t;
+    Properties xtProps;
+    for(int i = 0; i < xt.getN(); i++)
+        xtProps["x" + std::to_string(i + 1)] = xt[0][i];
+    return xtProps;
 }
