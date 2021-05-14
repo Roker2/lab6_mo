@@ -16,6 +16,9 @@ public:
 							   std::vector<double> &x,
 							   std::set<int> &Jb,
 							   bool &exists);
+    static std::vector<double> calculateXVector(const Matrix& A,
+                                                const std::set<int>& Jb,
+                                                const Matrix& b);
 
 private:
 	static bool iterationInternal(const Matrix& A,
@@ -23,4 +26,6 @@ private:
 								  SquareMatrix &B,
 								  std::set<int>& Jb,
 								  std::vector<double>& x);
+    static SquareMatrix getBasisMatrix(const Matrix& A,
+                                       const std::set<int>& Jb);
 };

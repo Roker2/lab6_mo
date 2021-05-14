@@ -1,5 +1,39 @@
 #include "SimplexMethod.h"
 
+SquareMatrix SimplexMethod::getBasisMatrix(const Matrix& A,
+                            const std::set<int>& Jb)
+{
+    SquareMatrix Ab(Jb.size());
+    int i = 0;
+    for (const auto& jIndex : Jb)
+    {
+        Ab.setColumnAt(i, A.getColumnAt(jIndex));
+        i++;
+    }
+    return Ab;
+}
+
+std::vector<double> SimplexMethod::calculateXVector(const Matrix& A,
+                                     const std::set<int>& Jb,
+                                     const Matrix& b)
+{
+    SquareMatrix Ab = getBasisMatrix(A, Jb);
+    bool exists = false;
+    SquareMatrix AbInversed = Ab.inverse(exists);
+    if (!exists)
+        throw CustomException("Ab is singular");
+    Matrix x_b(dynamic_cast<const Matrix&>(AbInversed) * b);
+    std::vector<double> x;
+    x.resize(A.getN(), 0);
+    int i = 0;
+    for (const auto& jIndex : Jb)
+    {
+        x[jIndex] = x_b[i][0];
+        i++;
+    }
+    return x;
+}
+
 void SimplexMethod::resolveOptimal(const Matrix& A,
 									const Matrix& c,
 									std::vector<double>& x,
