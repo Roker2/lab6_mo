@@ -152,4 +152,26 @@ void Resolver::resolver(std::vector<FuncPtr>& gFuncs, const Properties& vectorx,
     for (size_t i = 0; i < vectorx.size(); i++)
         l[i] += d_low[0][i];
     std::cout << "l: " << l << std::endl;
+
+    const Properties vectorXWithLid{{"x1_lid", 1}, {"x2_lid", 0}, {"x3_lid", 0}}; // на бумаге подобрал
+
+    Matrix deltaX(1, vectorx.size());
+    for (size_t i = 0; i < vectorx.size(); i++)
+        deltaX[0][i] = vectorXWithLid.at("x" + std::to_string(i + 1) + "_lid") - vectorx.at("x" + std::to_string(i + 1));
+
+    double alpha = getAlpha(fVector, Matrix(1, l.size(), {l}), deltaX);
+}
+
+double Resolver::getAlpha(Matrix fVector, Matrix l0, Matrix deltaX)
+{
+    fVector.transpose();
+    l0.transpose();
+    deltaX.transpose();
+    std::cout << "TEST\n" << fVector << "\n" << l0 << std::endl;
+    Matrix temp1 = fVector * l0;
+    Matrix temp2 = fVector * deltaX;
+    std::cout << temp1 << "\n" << temp2 << std::endl;
+    double alpha = - temp1[0][0] / temp2[0][0];
+    std::cout << alpha - (fabs(alpha) * 0.1) << std::endl;
+    return alpha - (fabs(alpha) * 0.1); // Знак строгий, я решил почему бы не взять 90% от альфа, которая подошла бы для уравнения
 }

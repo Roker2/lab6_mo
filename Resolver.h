@@ -12,6 +12,7 @@ class Resolver
 public:
     Resolver() = delete;
     static void resolver(std::vector<FuncPtr>& gFuncs, const Properties& vectorx, FuncCPtr fFunc);
+    static double getAlpha(Matrix fVector, Matrix l0, Matrix deltaX);
 };
 
 #endif // RESOLVER_H
