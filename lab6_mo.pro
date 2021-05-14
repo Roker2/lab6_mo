@@ -16,6 +16,12 @@ SOURCES += \
         GaussMethod.cpp \
         Matrix.cpp \
         Resolver.cpp \
+        SimplexMethod/SimplexMethod.cpp \
+        SimplexMethod/StepFive.cpp \
+        SimplexMethod/StepFour.cpp \
+        SimplexMethod/StepOne.cpp \
+        SimplexMethod/StepSix.cpp \
+        SimplexMethod/StepThree.cpp \
         SquareMatrix.cpp \
         main.cpp
 
@@ -36,4 +42,10 @@ HEADERS += \
     GaussMethod.h \
     Matrix.h \
     Resolver.h \
+    SimplexMethod/SimplexMethod.h \
+    SimplexMethod/StepFive.h \
+    SimplexMethod/StepFour.h \
+    SimplexMethod/StepOne.h \
+    SimplexMethod/StepSix.h \
+    SimplexMethod/StepThree.h \
     SquareMatrix.h
