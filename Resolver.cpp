@@ -167,11 +167,8 @@ double Resolver::getAlpha(Matrix fVector, Matrix l0, Matrix deltaX)
     fVector.transpose();
     l0.transpose();
     deltaX.transpose();
-    std::cout << "TEST\n" << fVector << "\n" << l0 << std::endl;
     Matrix temp1 = fVector * l0;
     Matrix temp2 = fVector * deltaX;
-    std::cout << temp1 << "\n" << temp2 << std::endl;
     double alpha = - temp1[0][0] / temp2[0][0];
-    std::cout << alpha - (fabs(alpha) * 0.1) << std::endl;
     return alpha - (fabs(alpha) * 0.1); // Знак строгий, я решил почему бы не взять 90% от альфа, которая подошла бы для уравнения
 }
