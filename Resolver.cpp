@@ -139,6 +139,14 @@ void Resolver::resolver(std::vector<FuncPtr>& gFuncs, const Properties& vectorx,
         Jb.insert(i);
     std::cout << "Jb: " << Jb << std::endl;
 
-    std::vector<double> x = SimplexMethod::calculateXVector(As, Jb, b);
-    std::cout << "x: " << x << std::endl;
+    std::vector<double> l = SimplexMethod::calculateXVector(As, Jb, b);
+    std::cout << "l: " << l << std::endl;
+
+    bool exist;
+    SimplexMethod::resolveOptimal(As, c, l, Jb, exist);
+    if (!exist) {
+        std::cout << "I can not find optimal l" << std::endl;
+        return;
+    }
+    std::cout << "l: " << l << std::endl;
 }
