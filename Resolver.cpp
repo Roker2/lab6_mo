@@ -210,3 +210,11 @@ Properties Resolver::getXt(Matrix vectorXStar, Matrix l0, Matrix deltaX, double 
         xtProps["x" + std::to_string(i + 1)] = xt[0][i];
     return xtProps;
 }
+
+void Resolver::print_map(const Properties& m)
+{
+    for (const auto& [key, value] : m) {
+        std::cout << key << " = " << value << "; ";
+    }
+    std::cout << "\n";
+}
