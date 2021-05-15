@@ -172,6 +172,8 @@ void Resolver::resolver(std::vector<FuncPtr>& gFuncs, const Properties& vectorx,
     double t = getT(vectorXStar, Matrix(1, l.size(), {l}), deltaX, fFunc->calculate(vectorx), fFunc, gFuncs, alpha);
     std::cout << "t = " << t << std::endl;
     Properties vectorNewX = getXt(vectorXStar, Matrix(1, l.size(), {l}), deltaX, t, alpha);
+    std::cout << "new x:" << std::endl;
+    print_map(vectorNewX);
 
     std::cout << "f(new_x) = " << fFunc->calculate(vectorNewX) << std::endl;
     for (size_t i = 0; i < gFuncs.size(); i++)
@@ -186,6 +188,7 @@ double Resolver::getAlpha(Matrix fVector, Matrix l0, Matrix deltaX)
     Matrix temp1 = fVector * l0;
     Matrix temp2 = fVector * deltaX;
     double alpha = - temp1[0][0] / temp2[0][0];
+    std::cout << "true alpha: " << alpha << std::endl;
     return alpha - alpha * 0.1; // Знак строгий, я решил почему бы не взять 90% от альфа, которая подошла бы для уравнения
 }
 
