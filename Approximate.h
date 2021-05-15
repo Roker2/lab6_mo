@@ -6,7 +6,7 @@ template <class T>
 class Approximate
 {
 public:
-	static constexpr T epsilon = static_cast<T>(0.01);
+    static constexpr T epsilon = static_cast<T>(0.001);
 
 	static inline bool equal(T a, T b) noexcept {
 		return (std::abs(a - b) <= epsilon);
