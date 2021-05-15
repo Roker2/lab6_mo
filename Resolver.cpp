@@ -126,7 +126,7 @@ void Resolver::resolver(std::vector<FuncPtr>& gFuncs, const Properties& vectorx,
     std::cout << "d_low\n" << d_low << std::endl;
     d_low.transpose();
     A.transpose();
-    Matrix b = Matrix(A) * d_low;
+    Matrix b = (Matrix(A) * d_low) * -1;
     A.transpose();
     b.transpose();
     d_low.transpose();
