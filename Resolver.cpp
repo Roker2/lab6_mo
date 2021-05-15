@@ -160,16 +160,22 @@ void Resolver::resolver(std::vector<FuncPtr>& gFuncs, const Properties& vectorx,
     Matrix deltaX(1, vectorx.size());
     for (size_t i = 0; i < vectorx.size(); i++)
         deltaX[0][i] = vectorXWithLid.at("x" + std::to_string(i + 1) + "_lid") - vectorx.at("x" + std::to_string(i + 1));
+    std::cout << "deltaX\n" << deltaX << std::endl;
 
     double alpha = getAlpha(fVector, Matrix(1, l.size(), {l}), deltaX);
+    std::cout << "alpha: " << alpha << std::endl;
 
     Matrix vectorXStar(1, vectorx.size());
     for (size_t i = 0; i < vectorx.size(); i++)
         vectorXStar[0][i] = vectorx.at("x" + std::to_string(i + 1));
 
-    //std::cout << "test\n" << vectorXStar + (Matrix(1, l.size(), {l}) + deltaX * alpha) * 0.5 << std::endl;
-    //std::cout << getT(vectorXStar, Matrix(1, l.size(), {l}), deltaX, fFunc->calculate(vectorx), fFunc, gFuncs, alpha) << std::endl;
-    std::cout << vectorXStar << std::endl << vectorXStar * 0.1 << std::endl;
+    double t = getT(vectorXStar, Matrix(1, l.size(), {l}), deltaX, fFunc->calculate(vectorx), fFunc, gFuncs, alpha);
+    std::cout << "t = " << t << std::endl;
+    Properties vectorNewX = getXt(vectorXStar, Matrix(1, l.size(), {l}), deltaX, t, alpha);
+
+    std::cout << "f(new_x) = " << fFunc->calculate(vectorNewX) << std::endl;
+    for (size_t i = 0; i < gFuncs.size(); i++)
+        std::cout << "g" << i + 1 << "(new_x) = " << gFuncs[i]->calculate(vectorNewX) << std::endl;
 }
 
 double Resolver::getAlpha(Matrix fVector, Matrix l0, Matrix deltaX)
@@ -185,18 +191,21 @@ double Resolver::getAlpha(Matrix fVector, Matrix l0, Matrix deltaX)
 
 double Resolver::getT(Matrix vectorXStar, Matrix l0, Matrix deltaX, double fRes, FuncCPtr fFunc, std::vector<FuncPtr> gFuncs, double alpha)
 {
-    for (int i = 1; i < 1000; i++) {
-        Properties tmp = getXt(vectorXStar, l0, deltaX, 0.1 * i, alpha);
+    const double coef = 0.001;
+    for (int i = 1; i < 200; i++) {
+        Properties tmp = getXt(vectorXStar, l0, deltaX, coef * i, alpha);
+        //std::cout << fFunc->getInf() << " = " << fFunc->calculate(tmp) << std::endl << "fRes = " << fRes << std::endl;
         if (Approximate<double>::less(fFunc->calculate(tmp), fRes)) {
             bool isNotOkay = false;
-            for (FuncCPtr gFunc : gFuncs) {
+            for (FuncPtr gFunc : gFuncs) {
+                //std::cout << gFunc->getInf() << " = " << gFunc->calculate(tmp) << std::endl;
                 if (Approximate<double>::greater(gFunc->calculate(tmp), 0)) {
                     isNotOkay = true;
                     break;
                 }
             }
             if (!isNotOkay)
-                return 0.1 * i;
+                return coef * i;
         }
     }
     return -1;
@@ -207,7 +216,9 @@ Properties Resolver::getXt(Matrix vectorXStar, Matrix l0, Matrix deltaX, double 
     Matrix xt = vectorXStar + (l0 + deltaX * alpha) * t;
     Properties xtProps;
     for(int i = 0; i < xt.getN(); i++)
-        xtProps["x" + std::to_string(i + 1)] = xt[0][i];
+        xtProps["x" + std::to_string(i + 1)] = xt[0][i] /*Approximate<double>::greaterEqual(xt[0][i], 0) ? xt[0][i] : 0*/;
+    //std::cout << "t = " << t << "\nxt = " << std::endl;
+    //print_map(xtProps);
     return xtProps;
 }
 
